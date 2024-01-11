@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"],
+    "module": "esnext",
+    "target": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "sourceMap": true,
+    "jsxFactory": "h",
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsxFragmentFactory": "Fragment",
+    "useDefineForClassFields": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "env.d.ts",
+    "typings.d.ts",
+    "shime-vue.d.ts",
+    "auto-import.d.ts", // 引入到这里
+  ],
+  "exclude": ["node_modules"]
+}

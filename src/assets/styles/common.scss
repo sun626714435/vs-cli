@@ -1,0 +1,221 @@
+// 全局公共样式
+html,
+body,
+div,
+span,
+applet,
+object,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+body {
+  font-family: 'CorporateS', 'Corps S Cond Regular', 'Corps S Cond Bold',
+    -apple-system, system-ui, 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'Helvetica Neue',
+    Helvetica, 'Hiragino Sans GB', Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  vertical-align: middle;
+}
+
+/* custom */
+a {
+  outline: none;
+  text-decoration: none;
+  -webkit-backface-visibility: hidden;
+}
+
+a:focus {
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: -webkit-focus-ring-color auto 0;
+}
+
+.required {
+  color: var(--el-color-danger);
+  font-size: 16px;
+  display: block;
+  margin-top: -4px;
+  margin-right: 4px;
+}
+
+.\!is-required {
+  &::before {
+    content: '*';
+    color: var(--el-color-danger);
+    font-size: 16px;
+    margin-right: 4px;
+  }
+}
+
+/* 弹窗样式 */
+.confirm-box {
+  .confirm-content {
+    @apply px-[24px] py-[30px] border-y border-solid border-stroke-light-gray;
+
+    .confirm-content-row {
+      @apply flex gap-[44px];
+    }
+  }
+
+  .confirm-msg-content {
+    @apply px-[20px] py-[30px] text-tip-gray text-[18px] font-bold leading-[18px];
+  }
+
+  .el-button {
+    @apply rounded-[4px] px-[16px];
+
+    &.el-button--primary:not(.is-plain):not(.is-link) {
+      @apply bg-dark-blue text-white border-dark-blue;
+    }
+  }
+
+  .confirm-image {
+    .el-dialog {
+      @apply  rounded-b-[12px] overflow-hidden;
+
+      .el-dialog__header {
+        .el-dialog__headerbtn {
+          @apply w-[18px] h-[18px] mr-[4px] rounded-[50%] bg-primary-blue;
+  
+          .el-dialog__close {
+            @apply text-white
+          }
+        }
+      }
+  
+      .el-dialog__body {
+        @apply rounded-b-[12px];
+
+        .confirm-image-content {
+          @apply w-full px-[3px] min-h-[50vh];
+        }
+      }
+    }
+  }
+}

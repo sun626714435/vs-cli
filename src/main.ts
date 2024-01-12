@@ -18,8 +18,13 @@ const render = async () => {
   setStore(app)
   setElement(app)
   setPermission(app)
+  setRem()
 
   app.use(router).mount('#app')
 }
-
+const setRem = () => {
+  const rem = document.documentElement.clientWidth / 16
+  document.documentElement.style.fontSize = `${rem}px`
+}
+window.addEventListener('resize', setRem)
 render()

@@ -20,6 +20,14 @@ const routes: CustomRouteRecordRaw[] = [
     component: () => import('@/views/redirect/Index.vue'),
   },
   {
+    path: paths.login,
+    name: 'Login',
+    meta: {
+      hiddenBreadcrumb: true,
+    },
+    component: () => import('@/layout/login/Login.vue'),
+  },
+  {
     path: paths.root,
     meta: {
       title: 'Retail Knowledge System',
@@ -28,15 +36,7 @@ const routes: CustomRouteRecordRaw[] = [
     children: [
       {
         path: paths.root,
-        redirect: paths.welcome,
-      },
-      {
-        path: paths.login,
-        name: 'Welcome',
-        meta: {
-          hiddenBreadcrumb: true,
-        },
-        component: () => import('@/views/welcome/Welcome.vue'),
+        redirect: paths.login,
       },
       {
         path: paths.welcome,
@@ -94,7 +94,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from) => {
 
   const { matched } = to
 
-  if (![paths.welcome, paths.forbidden, paths.notFound].includes(to.path)) {
+  if (![paths.login, paths.forbidden, paths.notFound].includes(to.path)) {
     const notAllowed = matched.some((item: CustomRouteRecordRaw) => {
       if (typeof item.meta === 'undefined' || typeof item.meta.permission === 'undefined')
         return false

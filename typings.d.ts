@@ -20,24 +20,9 @@ declare namespace Base {
     total?: number
   }
 
-  type CascadeOption = {
-    label: string
-    value: string | number
-    children?: CascadeOption[]
-  }
-
   interface IBasicItem {
     id: number | string
     [key: string]: any
-  }
-
-  interface IByIdsItem<T> {
-    [key: string]: T
-  }
-
-  declare interface IBasicIds<T extends IBasicItem> {
-    byId: IByIdsItem<T>
-    allIds: (number | string)[]
   }
 
   type Pagination = {
@@ -48,7 +33,7 @@ declare namespace Base {
 }
 
 export = Base
-export as namespace VICC
+export as namespace VSCLI
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {

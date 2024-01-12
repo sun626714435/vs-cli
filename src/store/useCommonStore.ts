@@ -1,11 +1,11 @@
 import { isEmpty } from 'lodash-es'
-import { StatusCodes } from 'http-status-codes'
+// import { StatusCodes } from 'http-status-codes'
 import { defineStore } from 'pinia'
 import VueCookies from 'vue-cookies'
 
 import router from '@/router'
 import { paths } from '@/router/paths'
-import commonAPIS from '@/api/common'
+// import commonAPIS from '@/api/common'
 import { request } from '@/utils/generateAPIs'
 import { getCookie } from '@/utils/common'
 import { LOCALE_KEYS } from '@/locale'
@@ -89,20 +89,20 @@ export const useCommonStore = defineStore('COMMON_STORE', {
       this.locale = data
       localStorage.setItem(LOCALSTORAGE_KEYS.LOCALE, data)
     },
-    async refreshUserinfo(userCode: string) {
-      try {
-        const { code, data } = await commonAPIS.refreshUserInfo({ userCode })
-        if (code === StatusCodes.OK) {
-          this.userInfo.lastName = data?.lastName
-          this.userInfo.firstName = data?.firstName
-          this.userInfo.shortName = data?.shortName
-          this.userInfo.email = data?.email
-        }
-      } catch (error) {
-        console.log('refreshUserinfo =>', error)
-        throw error
-      }
-    },
+    // async refreshUserinfo(userCode: string) {
+    //   try {
+    //     const { code, data } = await commonAPIS.refreshUserInfo({ userCode })
+    //     if (code === StatusCodes.OK) {
+    //       this.userInfo.lastName = data?.lastName
+    //       this.userInfo.firstName = data?.firstName
+    //       this.userInfo.shortName = data?.shortName
+    //       this.userInfo.email = data?.email
+    //     }
+    //   } catch (error) {
+    //     console.log('refreshUserinfo =>', error)
+    //     throw error
+    //   }
+    // },
     addKeepAliveComponentName(componentName: string) {
       if (this.keepAliveComponentNames.indexOf(componentName) === -1) {
         this.keepAliveComponentNames.push(componentName)

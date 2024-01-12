@@ -71,7 +71,7 @@ module.exports = {
   parser: 'vue-eslint-parser',
   globals: {
     JSX: 'readonly',
-    VICC: 'readonly',
+    VSCLI: 'readonly',
   },
   // 支持ts的最新语法
   plugins: ['vue', '@typescript-eslint'],

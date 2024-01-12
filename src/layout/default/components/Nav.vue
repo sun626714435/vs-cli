@@ -7,7 +7,6 @@
       :default-openeds="opened"
       class="el-menu-vertical"
     >
-   
       <template v-for="item in menus" :key="item.path">
         <el-sub-menu
           popper-class="submenu-popup-container"
@@ -85,7 +84,7 @@ import { routerTo } from '@/utils/router'
 import { useCommonStore } from '@/store/useCommonStore'
 import { useAccessesStore } from '@/store/useAccesses'
 
-import type { Menu } from '../../types/common.d'
+import type { Menu } from '../../typing/common.d'
 
 const route = useRoute()
 const store = useCommonStore()
@@ -105,7 +104,14 @@ const isCollapse = computed(() => store.isCollapse)
  * v-permission 为自定义指令
  */
 const menus = computed<Menu[]>(() =>
-  []
+  [
+    {
+      name: 'Dashboard',
+      path: '/welcome',
+      permission: 'canAccessDashboard',
+      customIconName: 'dashboard',
+    },
+  ]
     .map((item: Menu) => ({
       ...item,
       children: item.children?.filter((item) => !item.permission || accesses[item.permission]),

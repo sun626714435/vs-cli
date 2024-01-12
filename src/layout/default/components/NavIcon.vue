@@ -13,7 +13,7 @@
 import CustomIcon from '@/components/CustomIcon.vue'
 import { getImage } from '@/utils/common'
 
-import type { Menu } from '../../types/common.d'
+import type { Menu } from '../../typing/common.d'
 
 interface Props {
   data: Menu

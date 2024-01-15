@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 interface ImportMetaEnv {
   MODE: string
-  VITE_PROXY: string
   VITE_TIPS_MODULES_ONLINE: string
   VITE_PORT: number
   VITE_PREFIX: string

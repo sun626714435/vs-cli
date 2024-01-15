@@ -60,7 +60,6 @@
 在代码中，我们通过 `import.meta.env.[xxx]` 来读取，其中比较典型的环境变量：
 
 - `MODE` 判断当前环境：development/qa/prod；
-- `VITE_PROXY` 仅在开发过程中生效，设置反向代理地址；
 - `VITE_PORT` 开发端口；
 - `VITE_APP_NAME` 当前工程的名字，也是项目隔离的根据；
 - `VITE_APP_TITLE` 页面 tab 上的名称，index.html 中的 <title> 标签；
@@ -84,7 +83,7 @@
 
 我们开启了 Tailwindcss 的 JIT 功能，更多了解请参考：https://www.tailwindcss.cn/docs/just-in-time-mode
 
-同时，丰富了基础的规则的尺寸和 Daimler 字体。
+同时，丰富了基础的规则的尺寸和字体。
 
 #### 首先，使用任意值
 
@@ -132,7 +131,7 @@ module.exports = {
 
 针对这种情况，我们进行了扩展，首先宽度的最大值为 w-200，同时尺寸间隔是 4px，也就是 0.25rem，与此同理的还有高度、最大/小宽度和最大/小高度。
 
-我们提供了 Daimler 通用字体以及备选字体，方便我们在 HTML 中直接使用字体 class：
+我们提供了备选字体，方便我们在 HTML 中直接使用字体 class：
 
 - `font-CS`: MS CorporateS;
 - `font-CS-Demi`: MS CorporateS-Demi;
@@ -177,7 +176,3 @@ _commit message 的最大长度在 72 个 letters 左右；_
 - 如果是其他文件（如 locale / typing / static / router 等等，非 SFC 文件），均以【首字母小写，驼峰】命名；
 - Store 的命名方式请以 use 开头驼峰命名；
 - Hooks 的命名方式请以 use 开头，以 `-` 字符链接的全小写，例如 use-confirm.ts；
-
-## Generate API
-
-请阅读该文档：https://itsc-confluence.mercedes-benz.com.cn/confluence/pages/viewpage.action?pageId=169093225

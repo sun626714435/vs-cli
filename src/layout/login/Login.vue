@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
-    <div class="login-box">
+    <div class="login-box h-14 min-h-80 w-72 min-w-24 bg-white p-5">
       <div class="title">
-        <span>登录</span> <img class="w-5" src="../../assets/images/logo.png" alt="" />
+        <span>登录</span> <img class="ml-1 w-24" src="../../assets/images/logo.png" alt="" />
       </div>
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
         <el-form-item label="" prop="userName">
-          <el-input v-model.number="ruleForm.userName" placeholder="请输入用户名">
+          <el-input v-model="ruleForm.userName" placeholder="请输入用户名">
             <template #prefix>
               <el-icon class="el-input__icon"><User /></el-icon>
             </template>
@@ -35,8 +35,11 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useCommonStore } from '@/store/useCommonStore'
+import commonAPIS from '@/api/common'
 
 const router = useRouter()
+const userStore = useCommonStore()
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
@@ -68,11 +71,27 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      router.push({ path: '/welcome' })
+      handleLogin()
     } else {
       return false
     }
   })
+}
+
+async function handleLogin() {
+  try {
+    const param = {
+      username: ruleForm.userName,
+      password: ruleForm.pass,
+    }
+    const { code, data } = await commonAPIS.login(param)
+    if (code === 200) {
+      userStore.setToken(data.token)
+      router.push({ path: '/welcome' })
+    }
+  } catch (err) {
+    console.log('loginError', err)
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -87,14 +106,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
   top: 50%;
   right: 0;
   transform: translate(-50%, -50%);
-  width: 3rem;
-  height: 3.5rem;
   min-width: 200px;
   min-height: 250px;
   border-radius: 8px;
-  box-sizing: border-box;
-  padding: 0.3rem;
-  background: #fff;
 }
 .title {
   font-size: 16px;

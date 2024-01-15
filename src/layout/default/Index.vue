@@ -4,7 +4,7 @@
       <Header />
     </el-header>
     <el-container class="h-0">
-      <el-aside width="auto" v-show="isMenuShow">
+      <el-aside width="auto">
         <Nav />
       </el-aside>
       <el-container>
@@ -34,7 +34,7 @@ import { useCommonStore } from '@/store/useCommonStore'
 
 const store = useCommonStore()
 
-const isMenuShow = computed(() => store.role)
+// const isMenuShow = computed(() => store.role)
 
 const keepAliveComponentNames = computed(() => store.keepAliveComponentNames)
 </script>
@@ -69,7 +69,7 @@ const keepAliveComponentNames = computed(() => store.keepAliveComponentNames)
   z-index: 101;
   margin-top: -2px;
   padding-top: 2px;
-  background: url('@/assets/images/bg.png') no-repeat;
+  // background: url('@/assets/images/bg.png') no-repeat;
   background-size: 100% 100%;
   background-position: top left;
   overflow: hidden !important;

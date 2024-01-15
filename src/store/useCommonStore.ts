@@ -49,7 +49,7 @@ export const useCommonStore = defineStore('COMMON_STORE', {
     },
     async exitLogin() {
       try {
-        await request({ url: '/api/openid/logout', method: 'GET' })
+        await request({ url: '/api/logout', method: 'GET' })
         this.$reset()
         localStorage.removeItem(LOCALSTORAGE_KEYS.ORG)
         localStorage.removeItem(LOCALSTORAGE_KEYS.ROLE)
@@ -85,10 +85,7 @@ export const useCommonStore = defineStore('COMMON_STORE', {
     //     throw error
     //   }
     // },
-    setLocale(data: LOCALE_KEYS) {
-      this.locale = data
-      localStorage.setItem(LOCALSTORAGE_KEYS.LOCALE, data)
-    },
+
     // async refreshUserinfo(userCode: string) {
     //   try {
     //     const { code, data } = await commonAPIS.refreshUserInfo({ userCode })

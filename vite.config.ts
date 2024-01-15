@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loadEnv, ConfigEnv, PluginOption, UserConfig } from 'vite'
-import { createProxies } from './vite.proxy'
 import { createPlugins } from './vite.plugin'
 
 const path = require('path')
@@ -14,7 +13,7 @@ enum ENV {
 export default ({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY } = env
+  const { VITE_PORT, VITE_PUBLIC_PATH } = env
   const plugins: PluginOption | PluginOption[] = createPlugins(mode, env)
   return {
     base: VITE_PUBLIC_PATH,
@@ -35,7 +34,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       host: true,
       open: false, // 浏览器自动打开
       port: Number(VITE_PORT),
-      proxy: createProxies(VITE_PROXY),
     },
     build: {
       minify: 'terser',

@@ -16,16 +16,16 @@
 
 ## 项目依赖
 
-- 开发、构建：Vite@2.7.2；
-- 技术栈：Vue@3.2.X；
-- 代码语言：Typescript@4.7；
-- 组件库：Element-plus@2.2.15；
+- 开发、构建：Vite@5.0.11；
+- 技术栈：Vue@3.4.X；
+- 代码语言：Typescript@5.3；
+- 组件库：Element-plus@2.5.1；
 - 工具库：Lodash@4.17；
-- 状态管理：Pinia@2.0.0-rc；
-- 国际化工具：Vue-i18n@9.3；
-- 路由：Vue-router@4.0.13；
-- 时间序列化工具：Moment@2.29:
-- CSS 样式原子库：Tailwindcss@3.1.8;
+- 状态管理：Pinia@2.1.7；
+- 国际化工具：Vue-i18n@9.9；
+- 路由：Vue-router@4.2.5；
+- 时间序列化工具：Moment@2.30;
+- CSS 样式原子库：Tailwindcss@3.4.1;
 
 ## Git 分支
 

@@ -1,6 +1,6 @@
 import { mapValues } from 'lodash-es'
 
-const modules = import.meta.globEager('./lang/*.ts')
+const modules = import.meta.glob('./lang/*.ts')
 
 const loop: any = (locale: {}, index: number) =>
   mapValues(locale, (item) => {

@@ -10,29 +10,7 @@
         <CustomIcon :font-size="16" name="arrow-down" />
       </div>
       <template #dropdown>
-        <el-dropdown-menu v-if="!store.isProductionMode">
-          <!-- 开发环境-->
-          <div class="px-4 py-1 text-right text-sm leading-6 text-white">
-            Version: v{{ version }}
-          </div>
-          <div class="my-2 border-b border-solid border-gray-200"></div>
-          <!-- 开发环境-->
-          <template v-for="(item, index) in allRoles" :key="index">
-            <template v-if="item.name === DIVIDER">
-              <div class="my-2 border-b border-solid border-gray-200"></div>
-            </template>
-            <template v-else>
-              <el-dropdown-item :command="item">
-                <custom-icon :name="item.icon" class="mr-[6px]" />
-                <span :class="{ 'text-primary-blue': currentName === item.name }">
-                  <span class="mr-1 font-bold" v-show="item.role">[{{ item.role }}]</span>{{ item.name }}
-                </span>
-              </el-dropdown-item>
-            </template>
-          </template>
-        </el-dropdown-menu>
-        <!-- 生产环境-->
-        <el-dropdown-menu v-else>
+        <el-dropdown-menu>
           <el-dropdown-item :command="EDIT_PROFILE">
             <custom-icon name="edit-profile" class="mr-[6px]" />
             <span>Edit Profile</span>
@@ -54,7 +32,6 @@
 <script lang="tsx" setup>
 import qs from 'qs'
 
-import pack from '../../../../../package.json'
 import { paths } from '@/router/paths'
 import CustomIcon from '@/components/CustomIcon.vue'
 import { useCommonStore } from '@/store/useCommonStore'
@@ -65,15 +42,11 @@ onMounted(() => {
   visible.value = !store.role
 })
 
-const DIVIDER = 'DIVIDER'
-
 type RoleItem = {
   name: string
   icon?: string
   role?: string
 }
-
-const { version } = pack
 
 const EDIT_PROFILE = {
   name: 'Edit Profile',
@@ -91,7 +64,6 @@ const LOG_OFF_ITEM = {
 }
 
 const store = useCommonStore()
-// TODO... 约束 userInfo 类型
 const currentName = computed(
   () => `${store.userInfo.lastName ?? ''}, ${store.userInfo.firstName ?? ''}`
 )
@@ -100,17 +72,6 @@ const currentRole = computed(() => {
   // const role = store.userInfo.roles.find((item) => item.roleCode === store.role)
   // return role?.roleName ?? ''
 })
-
-const allRoles: RoleItem[] = [
-  {
-    name: 'Local development',
-    role: 'developer',
-  },
-  { name: DIVIDER },
-  EDIT_PROFILE,
-  SELECT_ROLE,
-  LOG_OFF_ITEM,
-]
 
 const handleLogout = () => {
   accesses.clearAccesses()

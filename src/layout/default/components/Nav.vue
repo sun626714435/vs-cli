@@ -1,45 +1,76 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <el-scrollbar class="scrollbar-container" @scroll="onScroll">
-    <el-menu :collapse-transition="false" :default-openeds="opened" class="el-menu-vertical">
-      <template v-for="(item, index) in menus" :key="item.path">
-        <el-sub-menu :index="index">
+    <el-menu
+      :collapse="isCollapse"
+      :collapse-transition="false"
+      :default-active="activeIndex"
+      :default-openeds="opened"
+      class="el-menu-vertical"
+    >
+      <template v-for="item in menus" :key="item.path">
+        <el-sub-menu popper-class="submenu-popup-container" v-if="item.children" :index="item.path">
           <template #title>
-            <el-icon><location /></el-icon>
-            <span>{{ item.name }}</span>
+            <NavIcon :data="item" />
+            <span class="nav-parent-title">{{ item.name }}</span>
           </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">{{ item.name }}</el-menu-item>
-            <el-menu-item index="1-2">{{ item.name }}</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">{{ item.name }}</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>{{ item.name }}</template>
-            <el-menu-item index="1-4-1">{{ item.name }}</el-menu-item>
-          </el-sub-menu>
+          <template v-if="item.children">
+            <template v-for="subItem in item.children" :key="subItem.path">
+              <el-menu-item
+                v-if="!subItem.children"
+                :index="subItem.path"
+                @click="pageHopping(subItem)"
+              >
+                <NavIcon :data="subItem" />
+                <span class="nav-child-title">{{ subItem.name }}</span>
+              </el-menu-item>
+              <el-sub-menu v-else :index="subItem.path" popper-class="submenu-popup-container">
+                <template #title>
+                  <NavIcon :data="subItem" />
+                  <span class="nav-child-title">{{ subItem.name }}</span>
+                </template>
+                <template v-for="subItemChild in subItem.children" :key="subItemChild.name">
+                  <el-menu-item :index="subItemChild.path" @click="pageHopping(subItemChild)">
+                    <template #title>
+                      <NavIcon :data="subItemChild" />
+                      <span>{{ subItemChild.name }}</span>
+                    </template>
+                  </el-menu-item>
+                </template>
+              </el-sub-menu>
+            </template>
+          </template>
         </el-sub-menu>
+        <el-menu-item
+          v-else
+          :class="{ 'is-button': item.highlightable === false }"
+          :index="item.path"
+          @click="pageHopping(item)"
+        >
+          <template v-if="isCollapse">
+            <NavIcon :data="item" />
+          </template>
+          <template v-else>
+            <NavIcon :data="item" />
+            <span class="nav-parent-title">{{ item.name }}</span>
+          </template>
+        </el-menu-item>
       </template>
     </el-menu>
   </el-scrollbar>
 </template>
 <script lang="ts" setup>
-// import * as R from 'ramda'
+import * as R from 'ramda'
+import NavIcon from '@/layout/default/components/NavIcon.vue'
+import { routerTo } from '@/utils/router'
+import type { Menu } from '../../types/common.d'
+import commonAPIS from '@/api/common'
 
-// import NavIcon from '@/layout/default/components/NavIcon.vue'
-// import { routerTo } from '@/utils/router'
-// import { useCommonStore } from '@/store/useCommonStore'
-// import { useAccessesStore } from '@/store/useAccesses'
-
-// import type { Menu } from '../../typing/common.d'
-
-// const route = useRoute()
+const route = useRoute()
 // const store = useCommonStore()
-// const accesses = useAccessesStore()
-
-const menus = ref([{ name: 'aaaa' }])
-
+const menus = ref([])
 const collapse = ref()
+const opened = ref<string[]>([])
 
 let stopScrolling: () => void
 const onScroll = ({ scrollTop }: { scrollTop: number }) => {
@@ -47,54 +78,46 @@ const onScroll = ({ scrollTop }: { scrollTop: number }) => {
   else stopScrolling?.()
 }
 
-// const isCollapse = computed(() => store.isCollapse)
-/**
- * permission?: string 权限，具体需要访问的值需要从 store/accesses.ts 中获取
- * v-permission 为自定义指令
- */
-// const menus = computed<Menu[]>(() =>
-//   [
-//     {
-//       name: 'Dashboard',
-//       path: '/welcome',
-//       permission: 'canAccessDashboard',
-//       customIconName: 'dashboard',
-//     },
-//   ]
-//     .map((item: Menu) => ({
-//       ...item,
-//       children: item.children?.filter((item) => !item.permission || accesses[item.permission]),
-//     }))
-//     .filter((item) => !item.permission || accesses[item.permission])
-// )
+async function getList() {
+  try {
+    const { code, data } = await commonAPIS.getMenuList()
+    if (code === 200) {
+      menus.value = data
+    }
+  } catch (err) {
+    console.log('loginError', err)
+  }
+}
+
+onMounted(() => {
+  getList()
+})
 
 // 跳转页面
-// const pageHopping = ({ path, type }: Menu) => {
-//   if (!path) return
-//   routerTo({ path }, { type })
-// }
-
-const opened = ref<string[]>([])
+const pageHopping = ({ path, type }: Menu) => {
+  if (!path) return
+  routerTo({ path }, { type })
+}
 
 // 二级菜单高亮显示
-// const activeIndex = computed(() =>
-//   R.pipe(
-//     R.concat(R.pluck('children', menus.value)),
-//     R.flatten,
-//     R.filter<Menu>(
-//       (item) => item && R.startsWith((item.activePath ?? item.path) as string, route.path)
-//     ),
-//     R.tap((x) => {
-//       opened.value = (x as unknown as Menu[]).reverse().map((r) => r.path)
-//       return x
-//     }),
-//     R.sort((a: Menu, b: Menu) => a.path.localeCompare(b.path)),
-//     R.last,
-//     R.defaultTo({} as any),
-//     R.prop('path'),
-//     R.defaultTo(undefined)
-//   )(menus.value)
-// )
+const activeIndex = computed(() =>
+  R.pipe(
+    R.concat(R.pluck('children', menus.value)),
+    R.flatten,
+    R.filter<Menu>(
+      (item) => item && R.startsWith((item.activePath ?? item.path) as string, route.path)
+    ),
+    R.tap((x) => {
+      opened.value = (x as unknown as Menu[]).reverse().map((r) => r.path)
+      return x
+    }),
+    R.sort((a: Menu, b: Menu) => a.path.localeCompare(b.path)),
+    R.last,
+    R.defaultTo({} as any),
+    R.prop('path'),
+    R.defaultTo(undefined)
+  )(menus.value)
+)
 </script>
 
 <style lang="scss" scoped>

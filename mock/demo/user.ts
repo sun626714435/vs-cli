@@ -13,28 +13,18 @@ export function createFakeUserList() {
       password: '123',
       token: 'fakeToken1',
       homePath: '/welcome',
-      roles: [
-        {
-          roleName: 'Super Admin',
-          value: 'super',
-        },
-      ],
+      roles: ['super'],
     },
     {
       userId: '2',
-      username: 'test22',
-      password: '123456',
+      username: '111',
+      password: '111',
       realName: 'test user',
       avatar: '',
       desc: 'tester',
       token: 'fakeToken2',
       homePath: '/welcome',
-      roles: [
-        {
-          roleName: 'Tester',
-          value: 'test',
-        },
-      ],
+      roles: ['test'],
     },
   ]
 }

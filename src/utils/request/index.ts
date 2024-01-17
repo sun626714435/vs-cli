@@ -22,7 +22,7 @@ const METHODS: Record<string, Method> = {
 }
 
 export default <T extends any>({
-  requestInterceptors,
+  // requestInterceptors,
   responseInterceptors,
   authorizationToken,
   ...restOptions
@@ -34,7 +34,7 @@ export default <T extends any>({
   })
 
   // 请求拦截器
-  if (requestInterceptors.length) api.interceptors.request.use(...requestInterceptors)
+  // if (requestInterceptors.length) api.interceptors.request.use(...requestInterceptors)
 
   // 响应拦截器
   if (responseInterceptors.length) api.interceptors.response.use(...responseInterceptors)

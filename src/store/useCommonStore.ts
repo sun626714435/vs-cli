@@ -5,8 +5,8 @@ import VueCookies from 'vue-cookies'
 
 import router from '@/router'
 import { paths } from '@/router/paths'
-// import commonAPIS from '@/api/common'
-import { request } from '@/utils/generateAPIs'
+import commonAPIS from '@/api/common'
+// import { request } from '@/utils/generateAPIs'
 import { getCookie } from '@/utils/common'
 import { LOCALE_KEYS } from '@/locale'
 // import { useAccessesStore } from './useAccesses'
@@ -25,7 +25,6 @@ export const useCommonStore = defineStore('COMMON_STORE', {
   }),
   actions: {
     async setToken(query: any) {
-      const { role } = query
       const tokenInCookie = getCookie('token')
       let token = ''
       if (isEmpty(tokenInCookie)) {
@@ -33,11 +32,10 @@ export const useCommonStore = defineStore('COMMON_STORE', {
       } else {
         token = tokenInCookie
       }
-
       ;(VueCookies as any).remove('token')
 
-      if (role) {
-        this.role = role as string
+      if (query.role) {
+        this.role = query.role as string
         localStorage.setItem(LOCALSTORAGE_KEYS.ROLE, this.role)
       }
 
@@ -49,15 +47,17 @@ export const useCommonStore = defineStore('COMMON_STORE', {
     },
     async exitLogin() {
       try {
-        await request({ url: '/api/logout', method: 'GET' })
-        this.$reset()
-        localStorage.removeItem(LOCALSTORAGE_KEYS.ORG)
-        localStorage.removeItem(LOCALSTORAGE_KEYS.ROLE)
-        localStorage.removeItem(LOCALSTORAGE_KEYS.TOKEN)
-        localStorage.removeItem(LOCALSTORAGE_KEYS.REDIRECT)
-
-        sessionStorage.removeItem('ACCESSES')
-        sessionStorage.removeItem('COMMON_STORE')
+        const { code } = await commonAPIS.logout()
+        if (code === 200) {
+          this.$reset()
+          localStorage.removeItem(LOCALSTORAGE_KEYS.ORG)
+          localStorage.removeItem(LOCALSTORAGE_KEYS.ROLE)
+          localStorage.removeItem(LOCALSTORAGE_KEYS.TOKEN)
+          localStorage.removeItem(LOCALSTORAGE_KEYS.REDIRECT)
+          sessionStorage.removeItem('ACCESSES')
+          sessionStorage.removeItem('COMMON_STORE')
+          router.push({ path: '/login' })
+        }
       } catch (err) {
         console.log('exitLogin ===>', err)
       }

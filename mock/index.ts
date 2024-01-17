@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 
-// const modules = import.meta.glob('./**/*.ts', { eager: true });
+// const modules = import.meta.glob('./**/*.ts');
 
 // const mockModules: any[] = []
 // Object.keys(modules).forEach((key) => {
@@ -10,9 +10,13 @@ import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 //   }
 //   mockModules.push(...(modules as any)[key].default);
 // });
+// export function setupProdMockServer() {
+//   createProdMockServer(mockModules)
+// }
 
-import testModule from './demo/user'
+import user from './demo/user'
+import menu from './demo/menu'
 
 export function setupProdMockServer() {
-  createProdMockServer([...testModule])
+  createProdMockServer([user, menu])
 }

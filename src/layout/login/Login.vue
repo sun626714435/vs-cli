@@ -86,7 +86,11 @@ async function handleLogin() {
     }
     const { code, data } = await commonAPIS.login(param)
     if (code === 200) {
-      userStore.setToken(data.token)
+      const temp = {
+        token: data.token,
+        role: data.roles,
+      }
+      userStore.setToken(temp)
       router.push({ path: '/welcome' })
     }
   } catch (err) {

@@ -4,25 +4,23 @@
       <el-form-item label="">
         <el-input v-model="formInline.user" placeholder="用户名" clearable />
       </el-form-item>
-      <el-form-item label="">
-        <el-select v-model="formInline.region" placeholder="用户状态" clearable>
-          <el-option label="禁用" value="disable" />
-          <el-option label="激活" value="activate" />
-        </el-select>
-      </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
         <el-button type="primary" @click="addoreditUser('add')">添加</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="userData" class="mt-3">
       <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="sex" label="性别" />
+      <el-table-column prop="sex" label="性别">
+        <template #default="{ row }">
+          {{ row.sex === 0 ? '男' : '女' }}
+        </template>
+      </el-table-column>
       <el-table-column prop="email" label="邮箱" />
       <el-table-column prop="role" label="角色" />
       <el-table-column prop="status" label="是否禁用">
         <template #default="{ row }">
-          <el-switch v-model="row.status" />
+          <el-switch v-model="row.status" @change="edit(row)" />
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
@@ -32,15 +30,18 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background layout="prev, pager, next" :total="1000" />
+    <!-- <el-pagination background layout="prev, pager, next" :total="1000" /> -->
   </div>
-  <el-dialog v-model="dialogFormVisible" :title="title">
-    <el-form :model="form">
+  <el-dialog v-model="dialogFormVisible" :title="title" width="30%">
+    <el-form :model="form" ref="formRef">
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="form.name" autocomplete="off" />
       </el-form-item>
       <el-form-item label="性别" :label-width="formLabelWidth">
-        <el-input v-model="form.sex" autocomplete="off" />
+        <el-select v-model="form.sex" placeholder="请选择">
+          <el-option label="男" value="0" />
+          <el-option label="女" value="1" />
+        </el-select>
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth">
         <el-input v-model="form.email" autocomplete="off" />
@@ -49,7 +50,7 @@
         <el-input v-model="form.role" autocomplete="off" />
       </el-form-item>
       <el-form-item label="用户状态" :label-width="formLabelWidth">
-        <el-select v-model="form.status" placeholder="Please select a zone">
+        <el-select v-model="form.status" placeholder="状态">
           <el-option label="禁用" value="false" />
           <el-option label="激活" value="true" />
         </el-select>
@@ -57,24 +58,24 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"> 确认 </el-button>
+        <el-button @click="closeDialog(formRef)">取消</el-button>
+        <el-button type="primary" @click="changeUser(formRef)"> 确认 </el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import commonAPIS from '@/api/common'
 
 const formInline = reactive({
   user: '',
-  status: true,
 })
 const dialogFormVisible = ref(false)
-const formLabelWidth = '140px'
-
+const formLabelWidth = '80px'
+const formRef = ref<FormInstance>()
 const form = reactive({
   name: '',
   sex: '',
@@ -85,23 +86,81 @@ const form = reactive({
 let title = ref('添加用户')
 const userData = ref([])
 const currentData = ref()
-const onSubmit = () => {
-  console.log('submit!')
+const search = () => {
+  if (formInline.user === '') {
+    getUserList()
+  } else {
+    userData.value = userData.value.filter((v) => v.name.includes(formInline.user))
+  }
 }
 const addoreditUser = (type: any, item: any) => {
   if (type === 'add') {
     title = '添加用户'
   } else {
     title = '编辑用户'
+    console.log('eee', item)
     currentData.value = item
+    item.sex = item.sex === 0 ? '男' : '女'
+    item.status = item.status ? '激活' : '禁用'
+    Object.assign(form, item)
   }
   dialogFormVisible.value = true
 }
 
+const changeUser = async (formEl: FormInstance | undefined) => {
+  if (title === '添加用户') {
+    await add(form.value)
+  } else {
+    await edit(currentData.value)
+  }
+  closeDialog(formEl)
+}
+
+const add = async () => {
+  try {
+    const { code } = await commonAPIS.addUser(form.value)
+    if (code === 200) {
+      const obj = {
+        id: userData.value.length + 1,
+        name: form.name,
+        sex: form.sex,
+        email: form.email,
+        role: form.role,
+        status: form.status,
+      }
+      userData.value.push(obj)
+      ElMessage.success('添加成功！')
+    }
+  } catch (err) {
+    console.log('Error', err)
+  }
+}
+
+const edit = async (item: any) => {
+  try {
+    const { code } = await commonAPIS.editUser(item.id)
+    if (code === 200) {
+      ElMessage.success('修改成功！')
+    }
+  } catch (err) {
+    console.log('Error', err)
+  }
+}
+
+const closeDialog = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+  dialogFormVisible.value = false
+}
+
 const del = (item: any) => {
   ElMessageBox.confirm('你确定要删除该条数据吗？')
-    .then(() => {
-      userData.value = userData.value.filter((v) => v.id !== item.id)
+    .then(async () => {
+      const { code } = await commonAPIS.delUser({ id: item.id })
+      if (code === 200) {
+        userData.value = userData.value.filter((v) => v.id !== item.id)
+        ElMessage.success('删除成功！')
+      }
     })
     .catch(() => {
       // catch error

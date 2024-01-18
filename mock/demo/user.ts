@@ -8,11 +8,9 @@ export function createFakeUserList() {
       userId: '1',
       username: '123',
       realName: '123',
-      avatar: '',
-      desc: 'manager',
       password: '123',
       token: 'fakeToken1',
-      homePath: '/welcome',
+      homePath: '/system/user-management',
       roles: ['super'],
     },
     {
@@ -20,8 +18,6 @@ export function createFakeUserList() {
       username: '111',
       password: '111',
       realName: 'test user',
-      avatar: '',
-      desc: 'tester',
       token: 'fakeToken2',
       homePath: '/welcome',
       roles: ['test'],
@@ -29,13 +25,7 @@ export function createFakeUserList() {
   ]
 }
 
-const fakeCodeList: any = {
-  '1': ['1000', '3000', '5000'],
-
-  '2': ['2000', '4000', '6000'],
-}
 export default [
-  // mock user login
   {
     url: '/api/login',
     timeout: 200,
@@ -48,19 +38,18 @@ export default [
       if (!checkUser) {
         return resultError('Incorrect account or password！')
       }
-      const { userId, username: _username, token, realName, desc, roles } = checkUser
+      const { userId, username: _username, token, realName, roles } = checkUser
       return resultSuccess({
         roles,
         userId,
         username: _username,
         token,
         realName,
-        desc,
       })
     },
   },
   {
-    url: '/api/getUserInfo',
+    url: '/api/users/currentUserInfo',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request)
@@ -70,22 +59,6 @@ export default [
         return resultError('The corresponding user information was not obtained!')
       }
       return resultSuccess(checkUser)
-    },
-  },
-  {
-    url: '/api/getPermCode',
-    timeout: 200,
-    method: 'get',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request)
-      if (!token) return resultError('Invalid token')
-      const checkUser = createFakeUserList().find((item) => item.token === token)
-      if (!checkUser) {
-        return resultError('Invalid token!')
-      }
-      const codeList = fakeCodeList[checkUser.userId]
-
-      return resultSuccess(codeList)
     },
   },
   {
@@ -101,11 +74,5 @@ export default [
       }
       return resultSuccess(undefined, { message: 'Token has been destroyed' })
     },
-  },
-  {
-    url: '/api/testRetry',
-    statusCode: 405,
-    method: 'get',
-    response: () => resultError('Error!'),
   },
 ] as MockMethod[]

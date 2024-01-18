@@ -7,7 +7,7 @@
       </div>
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
         <el-form-item label="" prop="userName">
-          <el-input v-model="ruleForm.userName" placeholder="请输入用户名123">
+          <el-input v-model="ruleForm.userName" placeholder="请输入用户名123or111">
             <template #prefix>
               <el-icon class="el-input__icon"><User /></el-icon>
             </template>
@@ -18,7 +18,7 @@
             v-model="ruleForm.pass"
             type="password"
             autocomplete="off"
-            placeholder="请输入密码123"
+            placeholder="请输入密码123or111"
           >
             <template #prefix>
               <el-icon class="el-input__icon"><Lock /></el-icon>
@@ -38,9 +38,7 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useCommonStore } from '@/store/useCommonStore'
-import commonAPIS from '@/api/common'
 
-const router = useRouter()
 const userStore = useCommonStore()
 
 const ruleFormRef = ref<FormInstance>()
@@ -79,24 +77,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
   })
 }
-
 async function handleLogin() {
   try {
     const param = {
       username: ruleForm.userName,
       password: ruleForm.pass,
     }
-    const { code, data } = await commonAPIS.login(param)
-    if (code === 200) {
-      const temp = {
-        token: data.token,
-        role: data.roles,
-      }
-      userStore.setToken(temp)
-      router.push({ path: '/welcome' })
-    }
+    await userStore.login(param)
   } catch (err) {
-    console.log('loginError', err)
     ElMessage.error('登录失败，请重试')
   }
 }

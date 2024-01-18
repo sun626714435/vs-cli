@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash-es'
-// import { StatusCodes } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { defineStore } from 'pinia'
 import VueCookies from 'vue-cookies'
 
@@ -9,8 +9,8 @@ import commonAPIS from '@/api/common'
 // import { request } from '@/utils/generateAPIs'
 import { getCookie } from '@/utils/common'
 import { LOCALE_KEYS } from '@/locale'
-// import { useAccessesStore } from './useAccesses'
-import { LOCALSTORAGE_KEYS, RoleItem, UserInfo } from '@/static/enums'
+import { useAccessesStore } from './useAccesses'
+import { LOCALSTORAGE_KEYS, RoleItem } from '@/static/enums'
 
 export const useCommonStore = defineStore('COMMON_STORE', {
   state: () => ({
@@ -18,8 +18,7 @@ export const useCommonStore = defineStore('COMMON_STORE', {
     role: localStorage.getItem(LOCALSTORAGE_KEYS.ROLE) ?? ('' as RoleItem | ''),
     locale: (localStorage.getItem(LOCALSTORAGE_KEYS.LOCALE) as LOCALE_KEYS) || LOCALE_KEYS.EN,
     system: '',
-    userInfo: {} as UserInfo,
-    // persisted
+    userInfo: {},
     isCollapse: true,
     keepAliveComponentNames: [] as string[],
   }),
@@ -35,14 +34,29 @@ export const useCommonStore = defineStore('COMMON_STORE', {
       ;(VueCookies as any).remove('token')
 
       if (query.role) {
-        this.role = query.role as string
+        this.role = query.role[0] as string
         localStorage.setItem(LOCALSTORAGE_KEYS.ROLE, this.role)
       }
 
       if (!isEmpty(token)) {
         localStorage.setItem(LOCALSTORAGE_KEYS.TOKEN, token)
-        // await this.getCurrentUserInfo()
+        await this.getCurrentUserInfo()
         router.replace(paths.root)
+      }
+    },
+    async login(params: any) {
+      try {
+        const { code, data } = await commonAPIS.login(params)
+        if (code === 200) {
+          const temp = {
+            token: data.token,
+            role: data.roles,
+          }
+          this.setToken(temp)
+          await this.getCurrentUserInfo()
+        }
+      } catch (error) {
+        console.log('error', error)
       }
     },
     async exitLogin() {
@@ -62,44 +76,25 @@ export const useCommonStore = defineStore('COMMON_STORE', {
         console.log('exitLogin ===>', err)
       }
     },
-    // async getCurrentUserInfo() {
-    //   try {
-    //     const { code, data } = await commonAPIS.getUserInfo()
-    //     if (code === StatusCodes.OK) {
-    //       this.userInfo = data
-
-    //       const role = this.userInfo.roles.find((item) => this.role === item.roleCode)
-    //       if (!role) this.role = ''
-
-    //       if (!this.role && data.roles?.length === 1) {
-    //         this.role = data.roles[0].roleCode
-    //       }
-
-    //       const accesses = useAccessesStore()
-    //       accesses.setAccesses(this.role ? [this.role] : data.roles)
-
-    //       await this.refreshUserinfo(this.userInfo.userCode)
-    //     }
-    //   } catch (error) {
-    //     console.log('getCurrentUserInfo =>', error)
-    //     throw error
-    //   }
-    // },
-
-    // async refreshUserinfo(userCode: string) {
-    //   try {
-    //     const { code, data } = await commonAPIS.refreshUserInfo({ userCode })
-    //     if (code === StatusCodes.OK) {
-    //       this.userInfo.lastName = data?.lastName
-    //       this.userInfo.firstName = data?.firstName
-    //       this.userInfo.shortName = data?.shortName
-    //       this.userInfo.email = data?.email
-    //     }
-    //   } catch (error) {
-    //     console.log('refreshUserinfo =>', error)
-    //     throw error
-    //   }
-    // },
+    async getCurrentUserInfo() {
+      try {
+        const { code, data } = await commonAPIS.getUserInfo()
+        if (code === StatusCodes.OK) {
+          this.userInfo = data
+          const role = data.roles.find((item: any) => item === this.role)
+          if (!role) this.role = ''
+          if (!this.role && data.roles?.length === 1) {
+            this.role = data.roles[0].roleCode
+          }
+          const accesses = useAccessesStore()
+          accesses.setAccesses(this.role ? [this.role] : data.roles)
+          router.push({ path: data.homePath })
+        }
+      } catch (error) {
+        console.log('getCurrentUserInfo =>', error)
+        throw error
+      }
+    },
     addKeepAliveComponentName(componentName: string) {
       if (this.keepAliveComponentNames.indexOf(componentName) === -1) {
         this.keepAliveComponentNames.push(componentName)

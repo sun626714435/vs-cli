@@ -10,9 +10,10 @@ import 'nprogress/nprogress.css'
 
 import Layout from '@/layout/default/Index.vue'
 import { paths } from './paths'
-import { useAccessesStore } from '@/store/useAccesses'
+// import { useAccessesStore } from '@/store/useAccesses'
 
 import type { CustomRouteRecordRaw } from '@/router/typing'
+// import { useCommonStore } from '@/store/useCommonStore'
 
 const routes: CustomRouteRecordRaw[] = [
   {
@@ -51,16 +52,25 @@ const routes: CustomRouteRecordRaw[] = [
         path: paths.userManagement,
         name: 'User Management',
         component: () => import('@/views/system/user-management.vue'),
+        meta: {
+          permission: 'canAccessSystem',
+        },
       },
       {
         path: paths.roleManagement,
         name: 'Role Management',
         component: () => import('@/views/system/role-management.vue'),
+        meta: {
+          permission: 'canAccessSystem',
+        },
       },
       {
         path: paths.menuManagement,
         name: 'Menu Management',
         component: () => import('@/views/system/menu-management.vue'),
+        meta: {
+          permission: 'canAccessSystem',
+        },
       },
       {
         // 403
@@ -96,6 +106,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to: RouteLocationNormalized, from) => {
+  // const store = useCommonStore()
   try {
     if (from === START_LOCATION && to.path !== paths.redirect4develop) {
       // 开始加载进度条
@@ -106,23 +117,23 @@ router.beforeEach(async (to: RouteLocationNormalized, from) => {
     return false
   }
 
-  const accesses = useAccessesStore()
+  // const accesses = useAccessesStore()
 
-  const { matched } = to
+  // const { matched } = to
 
-  if (![paths.login, paths.forbidden, paths.notFound].includes(to.path)) {
-    const notAllowed = matched.some((item: CustomRouteRecordRaw) => {
-      if (typeof item.meta === 'undefined' || typeof item.meta.permission === 'undefined')
-        return false
-      return ([] as string[])
-        .concat(item.meta.permission)
-        .filter((auth) => typeof auth !== 'undefined')
-        .some((auth) => accesses[auth] === false)
-    })
-    if (notAllowed) {
-      return { path: paths.forbidden }
-    }
-  }
+  // if (![paths.login, paths.forbidden, paths.notFound].includes(to.path)) {
+  //   const notAllowed = matched.some((item: CustomRouteRecordRaw) => {
+  //     if (typeof item.meta === 'undefined' || typeof item.meta.permission === 'undefined')
+  //       return false
+  //     return ([] as string[])
+  //       .concat(item.meta.permission)
+  //       .filter((auth) => typeof auth !== 'undefined')
+  //       .some((auth) => accesses[auth] === false)
+  //   })
+  //   if (notAllowed) {
+  //     return { path: paths.forbidden }
+  //   }
+  // }
 })
 
 router.afterEach(() => {

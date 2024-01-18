@@ -14,8 +14,12 @@ enum apis {
   getMenuList = 'GET getMenuList',
   // getUserList
   getUserList = 'GET getUserList',
-  // getAuthList
-  getAuthList = 'GET getAuthList',
+  // delUser
+  delUser = 'POST delUser d:*',
+  // editUser
+  editUser = 'POST editUser d:*',
+  // addUser
+  addUser = 'POST addUser d:*',
   // getRoleList
   getRoleList = 'GET getRoleList',
 }

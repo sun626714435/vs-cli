@@ -21,11 +21,7 @@ export const useAccessesStore = defineStore<
   actions: {
     setAccesses(roles: RoleTypeEnum[]) {
       if (roles?.length) {
-        this.canAccessSystem = containsAny(roles, [
-          RoleTypeEnum.CM,
-          RoleTypeEnum.LE,
-          RoleTypeEnum.MeetingHolder,
-        ])
+        this.canAccessSystem = containsAny(roles, [RoleTypeEnum.SUPER])
       }
     },
     clearAccesses() {

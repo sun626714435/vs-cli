@@ -6,10 +6,10 @@ export enum ResultEnum {
 export const DataTypeString = Symbol('String')
 
 export enum RoleTypeEnum {
-  CM = 'CM',
-  LE = 'LE',
-  MeetingHolder = 'Meeting_Holder',
-  BUAdmin = 'BU_Admin',
+  SUPER = 'super',
+  TEST = 'test',
+  // MeetingHolder = 'Meeting_Holder',
+  // BUAdmin = 'BU_Admin',
 }
 
 export const LOCALSTORAGE_KEYS = {
@@ -25,14 +25,4 @@ export interface RoleItem {
   id: string
   roleCode: RoleItem
   roleName: string
-}
-
-export interface UserInfo {
-  id: string
-  userCode: string
-  lastName: string
-  firstName: string
-  shortName: string
-  email: string
-  roles: RoleItem[]
 }

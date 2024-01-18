@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MockMethod } from 'vite-plugin-mock'
-import { resultPageSuccess } from '../_util'
+import { resultPageSuccess, resultSuccess } from '../_util'
 
 const userList = (() => {
   const result: any[] = []
@@ -50,6 +50,33 @@ export default [
     response: ({ query }) => {
       const { page = 1, pageSize = 20 } = query
       return resultPageSuccess(page, pageSize, userList)
+    },
+  },
+  {
+    url: '/api/delUser',
+    timeout: 100,
+    method: 'post',
+    response: ({ query }) => {
+      const { id } = query
+      return resultSuccess({ id })
+    },
+  },
+  {
+    url: '/api/editUser',
+    timeout: 100,
+    method: 'post',
+    response: ({ query }) => {
+      const { id } = query
+      return resultSuccess({ id })
+    },
+  },
+  {
+    url: '/api/addUser',
+    timeout: 100,
+    method: 'post',
+    response: ({ query }) => {
+      const { id } = query
+      return resultSuccess({ id })
     },
   },
   {

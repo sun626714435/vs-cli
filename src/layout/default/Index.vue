@@ -45,8 +45,8 @@ const keepAliveComponentNames = computed(() => store.keepAliveComponentNames)
   height: 100vh;
 }
 .el-header {
-  color: #fff;
-  background: url('@/assets/images/header-bg.png') no-repeat;
+  // color: #fff;
+  // background: url('@/assets/images/header-bg.png') no-repeat;
   padding: 0 32px !important;
 }
 

@@ -1,7 +1,11 @@
 export const paths = {
   root: '/',
-  login:'/login',
+  login: '/login',
   welcome: '/welcome',
+  system: '/system',
+  userManagement: '/system/user-management',
+  roleManagement: '/system/role-management',
+  menuManagement: '/system/menu-management',
   forbidden: '/403',
   notFound: '/404',
   redirect4develop: '/login-redirect',

@@ -1,13 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <el-scrollbar class="scrollbar-container" @scroll="onScroll">
-    <el-menu
-      :collapse="isCollapse"
-      :collapse-transition="false"
-      :default-active="activeIndex"
-      :default-openeds="opened"
-      class="el-menu-vertical"
-    >
+    <el-menu :collapse-transition="false" :default-openeds="opened" class="el-menu-vertical">
+      <!-- :default-active="activeIndex" -->
       <template v-for="item in menus" :key="item.path">
         <el-sub-menu popper-class="submenu-popup-container" v-if="item.children" :index="item.path">
           <template #title>
@@ -60,22 +55,26 @@
   </el-scrollbar>
 </template>
 <script lang="ts" setup>
-import * as R from 'ramda'
+// import * as R from 'ramda'
 import NavIcon from '@/layout/default/components/NavIcon.vue'
 import { routerTo } from '@/utils/router'
 import type { Menu } from '../../types/common.d'
 import commonAPIS from '@/api/common'
 
-const route = useRoute()
+// const route = useRoute()
 // const store = useCommonStore()
 const menus = ref([])
 const collapse = ref()
 const opened = ref<string[]>([])
+const isCollapse = ref(false)
 
 let stopScrolling: () => void
 const onScroll = ({ scrollTop }: { scrollTop: number }) => {
-  if (scrollTop !== 0) stopScrolling = collapse.value.scrolling()
-  else stopScrolling?.()
+  if (scrollTop !== 0) {
+    stopScrolling = collapse.value?.scrolling()
+  } else {
+    stopScrolling?.()
+  }
 }
 
 async function getList() {
@@ -85,7 +84,7 @@ async function getList() {
       menus.value = data
     }
   } catch (err) {
-    console.log('loginError', err)
+    console.log('Error', err)
   }
 }
 
@@ -94,30 +93,30 @@ onMounted(() => {
 })
 
 // 跳转页面
-const pageHopping = ({ path, type }: Menu) => {
+const pageHopping = ({ path }: Menu) => {
   if (!path) return
-  routerTo({ path }, { type })
+  routerTo({ path })
 }
 
 // 二级菜单高亮显示
-const activeIndex = computed(() =>
-  R.pipe(
-    R.concat(R.pluck('children', menus.value)),
-    R.flatten,
-    R.filter<Menu>(
-      (item) => item && R.startsWith((item.activePath ?? item.path) as string, route.path)
-    ),
-    R.tap((x) => {
-      opened.value = (x as unknown as Menu[]).reverse().map((r) => r.path)
-      return x
-    }),
-    R.sort((a: Menu, b: Menu) => a.path.localeCompare(b.path)),
-    R.last,
-    R.defaultTo({} as any),
-    R.prop('path'),
-    R.defaultTo(undefined)
-  )(menus.value)
-)
+// const activeIndex = computed(() =>
+//   R.pipe(
+//     R.concat(R.pluck('children', menus.value)),
+//     R.flatten,
+//     R.filter<Menu>(
+//       (item) => item && R.startsWith((item.activePath ?? item.path) as string, route.path)
+//     ),
+//     R.tap((x) => {
+//       opened.value = (x as unknown as Menu[]).reverse().map((r) => r.path)
+//       return x
+//     }),
+//     R.sort((a: Menu, b: Menu) => a.path.localeCompare(b.path)),
+//     R.last,
+//     R.defaultTo({} as any),
+//     R.prop('path'),
+//     R.defaultTo(undefined)
+//   )(menus.value)
+// )
 </script>
 
 <style lang="scss" scoped>

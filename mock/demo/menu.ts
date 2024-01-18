@@ -11,44 +11,26 @@ const levelRoute = {
     {
       path: 'menu1',
       name: 'Menu1Demo',
-      meta: {
-        title: 'Menu1',
-      },
       children: [
         {
           path: 'menu1-1',
           name: 'Menu11Demo',
-          meta: {
-            title: 'Menu1-1',
-          },
           children: [
             {
               path: 'menu1-1-1',
               name: 'Menu111Demo',
-              component: '/demo/level/Menu111',
-              meta: {
-                title: 'Menu111',
-              },
             },
           ],
         },
         {
           path: 'menu1-2',
           name: 'Menu12Demo',
-          component: '/demo/level/Menu12',
-          meta: {
-            title: 'Menu1-2',
-          },
         },
       ],
     },
     {
       path: 'menu2',
       name: 'Menu2Demo',
-      component: '/demo/level/Menu2',
-      meta: {
-        title: 'Menu2',
-      },
     },
   ],
 }
@@ -59,8 +41,8 @@ const levelDemo = {
   icon: 'carbon:user-role',
 }
 const levelDemo2 = {
-  path: 'demo',
-  name: 'DEMO',
+  path: '/welcome',
+  name: 'HOME',
   icon: 'carbon:user-role',
 }
 
@@ -70,19 +52,15 @@ const system = {
   icon: 'ion:settings-outline',
   children: [
     {
-      path: 'account',
+      path: '/system/user-management',
       name: '用户管理',
     },
     {
-      path: 'role',
+      path: '/system/role-management',
       name: '角色管理',
     },
     {
-      path: 'auth',
-      name: '权限管理',
-    },
-    {
-      path: 'menu',
+      path: '/system/menu-management',
       name: '菜单管理',
     },
   ],

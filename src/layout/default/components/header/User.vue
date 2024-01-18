@@ -1,10 +1,11 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="user-box flex items-center">
     <el-dropdown trigger="click" @command="onClickItem" popper-class="system-btn-dropdown">
       <div class="flex items-center">
         <span class="current-role">{{ currentRole }}</span>
         <CustomIcon :font-size="24" class="mr-2" name="user" />
-        <span class="text-md mt-0.5 mr-2 font-CS font-normal leading-4 text-white">
+        <span class="text-md mr-2 mt-0.5 font-CS font-normal leading-4 text-white">
           {{ currentName }}
         </span>
         <CustomIcon :font-size="16" name="arrow-down" />

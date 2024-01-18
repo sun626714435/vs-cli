@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="login-container">
     <div class="login-box h-14 min-h-80 w-72 min-w-24 bg-white p-5">
@@ -6,7 +7,7 @@
       </div>
       <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
         <el-form-item label="" prop="userName">
-          <el-input v-model="ruleForm.userName" placeholder="请输入用户名">
+          <el-input v-model="ruleForm.userName" placeholder="请输入用户名123">
             <template #prefix>
               <el-icon class="el-input__icon"><User /></el-icon>
             </template>
@@ -17,7 +18,7 @@
             v-model="ruleForm.pass"
             type="password"
             autocomplete="off"
-            placeholder="请输入密码"
+            placeholder="请输入密码123"
           >
             <template #prefix>
               <el-icon class="el-input__icon"><Lock /></el-icon>
@@ -35,6 +36,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useCommonStore } from '@/store/useCommonStore'
 import commonAPIS from '@/api/common'
 
@@ -95,6 +97,7 @@ async function handleLogin() {
     }
   } catch (err) {
     console.log('loginError', err)
+    ElMessage.error('登录失败，请重试')
   }
 }
 </script>

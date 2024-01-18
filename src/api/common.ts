@@ -12,6 +12,12 @@ enum apis {
   // refreshUserInfo = 'GET users/findUserByUserCode q:userCode',
   // getMenuList
   getMenuList = 'GET getMenuList',
+  // getUserList
+  getUserList = 'GET getUserList',
+  // getAuthList
+  getAuthList = 'GET getAuthList',
+  // getRoleList
+  getRoleList = 'GET getRoleList',
 }
 
 export default generatorAPIS<keyof typeof apis>(apis)

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
     class="flex min-h-80 items-center justify-center font-CS font-bold"

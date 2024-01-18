@@ -28,11 +28,12 @@ const routes: CustomRouteRecordRaw[] = [
     component: () => import('@/layout/login/Login.vue'),
   },
   {
-    path: paths.root,
+    path: paths.system,
     meta: {
       title: 'Retail Knowledge System',
     },
     name: 'Retail Knowledge System',
+    redirect: paths.userManagement,
     children: [
       {
         path: paths.root,
@@ -45,6 +46,21 @@ const routes: CustomRouteRecordRaw[] = [
           hiddenBreadcrumb: true,
         },
         component: () => import('@/views/welcome/Welcome.vue'),
+      },
+      {
+        path: paths.userManagement,
+        name: 'User Management',
+        component: () => import('@/views/system/user-management.vue'),
+      },
+      {
+        path: paths.roleManagement,
+        name: 'Role Management',
+        component: () => import('@/views/system/role-management.vue'),
+      },
+      {
+        path: paths.menuManagement,
+        name: 'Menu Management',
+        component: () => import('@/views/system/menu-management.vue'),
       },
       {
         // 403

@@ -2,17 +2,17 @@
 <template>
   <div class="user-box flex items-center">
     <el-dropdown trigger="click" @command="onClickItem" popper-class="system-btn-dropdown">
-      <div class="flex items-center">
-        <span class="current-role">{{ currentRole }}</span>
-        <el-icon><UserFilled /></el-icon>
-        <el-icon><ArrowDownBold /></el-icon>
+      <div class="flex items-center text-2xl">
+        <span class="current-role text-white">{{ currentRole }}</span>
+        <el-icon class="text-white"><UserFilled /></el-icon>
+        <el-icon class="text-white"><ArrowDownBold /></el-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item :command="EDIT_PROFILE">
+          <!-- <el-dropdown-item :command="EDIT_PROFILE">
             <el-icon class="mr-[6px]"><Edit /></el-icon>
             <span>Edit Profile</span>
-          </el-dropdown-item>
+          </el-dropdown-item> -->
           <el-dropdown-item :command="LOG_OFF_ITEM">
             <custom-icon name="logout" class="mr-[6px]" />
             <span>Logout</span>
@@ -74,7 +74,7 @@ const onClickItem = (data: RoleItem) => {
 
 <style lang="scss" scoped>
 .current-role {
-  @apply mr-[8px] mt-0.5 text-[14px] font-semibold;
+  @apply mr-[8px] mt-0.5 text-[16px] font-semibold;
 }
 
 .user-box {

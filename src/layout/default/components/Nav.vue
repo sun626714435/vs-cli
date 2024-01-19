@@ -3,7 +3,7 @@
   <el-scrollbar class="scrollbar-container" @scroll="onScroll">
     <el-menu :collapse-transition="false" :default-openeds="opened" class="el-menu-vertical">
       <!-- :default-active="activeIndex" -->
-      <template v-for="item in menus" :key="item.path">
+      <template v-for="item in menus" :key="item.name">
         <el-sub-menu popper-class="submenu-popup-container" v-if="item.children" :index="item.path">
           <template #title>
             <NavIcon :data="item" />
@@ -134,9 +134,9 @@ const pageHopping = ({ path }: Menu) => {
     @apply h-[54px];
     @apply px-[16px] #{!important};
 
-    .nav-parent-title,
+    // .nav-parent-title,
     .nav-child-title {
-      @apply text-[15px] font-medium text-unchecked-gray;
+      @apply text-[12px] font-medium;
     }
 
     .icon-box {
@@ -144,7 +144,7 @@ const pageHopping = ({ path }: Menu) => {
     }
 
     &:not(.is-active):hover {
-      @apply bg-[#22373f];
+      // @apply bg-[#22373f];
     }
 
     &.is-active {
@@ -166,33 +166,33 @@ const pageHopping = ({ path }: Menu) => {
     }
 
     .el-sub-menu__icon-arrow {
-      @apply text-white;
+      @apply text-black;
     }
 
-    &.is-active {
-      @apply bg-dark-blue bg-opacity-60 text-white;
+    // &.is-active {
+    //   @apply bg-dark-blue bg-opacity-60 text-white;
 
-      .icon-box {
-        @apply text-white;
-      }
+    //   .icon-box {
+    //     @apply text-white;
+    //   }
 
-      .el-menu-item,
-      .el-sub-menu__title {
-        @apply bg-transparent;
+    //   .el-menu-item,
+    //   .el-sub-menu__title {
+    //     @apply bg-transparent;
 
-        .nav-parent-title,
-        .nav-child-title {
-          @apply font-semibold text-white;
-        }
+    //     .nav-parent-title,
+    //     .nav-child-title {
+    //       @apply font-semibold text-white;
+    //     }
 
-        &.is-active {
-          .nav-parent-title,
-          .nav-child-title {
-            @apply text-active-blue;
-          }
-        }
-      }
-    }
+    //     &.is-active {
+    //       .nav-parent-title,
+    //       .nav-child-title {
+    //         @apply text-active-blue;
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   &.el-menu--collapse {

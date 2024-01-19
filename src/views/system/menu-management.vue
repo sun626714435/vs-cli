@@ -1,7 +1,7 @@
 <template>
   <div class="menuManagement p-5">
-    <el-button type="primary" size="small" @click="addOrEditUser('add')">添加菜单</el-button>
-    <el-table :data="menuData" class="mt-3" default-expand-all row-key="id">
+    <el-button type="primary" size="small" @click="addOrEditMenu('add')">添加菜单</el-button>
+    <el-table v-loading="loading" :data="menuData" class="mt-3" default-expand-all row-key="path">
       <el-table-column prop="name" label="菜单名称" />
       <el-table-column prop="mark" label="备注" />
       <el-table-column prop="status" label="状态">
@@ -11,28 +11,143 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
-          <el-button link type="primary" size="small" @click="openUser(row)">分配权限</el-button>
+          <el-button link type="primary" size="small" @click="openAuth(row)">分配权限</el-button>
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="onAddChild(row)"
+            v-if="row.type === 'root'"
+            >添加菜单</el-button>
           <el-button link type="primary" size="small" @click="addOrEditMenu('edit', row)">编辑</el-button>
           <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
+  <el-dialog v-model="dialogVisible" :title="title" width="30%">
+    <el-form :model="form" ref="formRef">
+      <el-form-item label="菜单名称" :label-width="formLabelWidth">
+        <el-input v-model="form.name" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="备注" :label-width="formLabelWidth">
+        <el-input v-model="form.mark" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="状态" :label-width="formLabelWidth">
+        <el-select v-model="form.status" placeholder="状态">
+          <el-option label="禁用" value="false" />
+          <el-option label="激活" value="true" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="changeRole"> 确认 </el-button>
+      </span>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="userVisible" title="分配权限" width="40%">
+    <el-transfer v-model="userValue" :data="userData" />
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="changeRole"> 确认 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
+import { ElMessage, ElMessageBox } from 'element-plus'
 import commonAPIS from '@/api/common'
 
+const generateData = () => {
+  const data: Option[] = []
+  for (let i = 1; i <= 15; i++) {
+    data.push({
+      key: i,
+      label: `Option ${i}`,
+      disabled: i % 4 === 0,
+    })
+  }
+  return data
+}
+
 const menuData = ref([])
+const userData = ref<Option[]>(generateData())
+const userValue = ref([])
+const userVisible = ref(false)
+const dialogVisible = ref(false)
+let title = ref('')
+const currentData = ref()
+const form = reactive({
+  name: '',
+  mark: '',
+  status: '',
+})
+const loading = ref(true)
+
+const formLabelWidth = '80px'
 async function getList() {
   try {
     const { code, data } = await commonAPIS.getMenuList()
     if (code === 200) {
       menuData.value = data
+      loading.value = false
     }
   } catch (err) {
     console.log('Error', err)
   }
 }
+
+const addOrEditMenu = (type: any, item: any) => {
+  if (type === 'add') {
+    title = '添加菜单'
+  } else {
+    title = '编辑菜单'
+    currentData.value = item
+    item.status = item.status ? '激活' : '禁用'
+    // Object.assign(form, item)
+  }
+  dialogVisible.value = true
+}
+
+const onAddChild = (item: any) => {
+  console.log('item', item)
+  item.children.push({
+    name: '',
+    mark: '',
+    status: '',
+  })
+}
+
+const del = (item: any) => {
+  ElMessageBox.confirm('你确定要删除该条数据吗？')
+    .then(async () => {
+      const { code } = await commonAPIS.delUser({ id: item.id })
+      if (code === 200) {
+        if (item.type === 'root') {
+          menuData.value = menuData.value.filter((v) => v.path !== item.path)
+        } else {
+          menuData.value.forEach((el) => {
+            if (el.path === item.root) {
+              el.children = el.children.filter((c) => c.path !== item.path)
+            }
+          })
+        }
+        ElMessage.success('删除成功！')
+      }
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+
+const openAuth = (item: any) => {
+  console.log('item', item)
+  userVisible.value = true
+}
+
 onMounted(() => {
   getList()
 })

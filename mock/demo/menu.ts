@@ -6,31 +6,21 @@ import { createFakeUserList } from './user'
 const levelRoute = {
   path: 'other',
   name: '其他',
-  icon: 'carbon:user-role',
+  icon: '',
+  type: 'root',
+  status: true,
   children: [
     {
       path: 'menu1',
       name: 'Menu1Demo',
-      children: [
-        {
-          path: 'menu1-1',
-          name: 'Menu11Demo',
-          children: [
-            {
-              path: 'menu1-1-1',
-              name: 'Menu111Demo',
-            },
-          ],
-        },
-        {
-          path: 'menu1-2',
-          name: 'Menu12Demo',
-        },
-      ],
+      status: true,
+      root: 'other',
     },
     {
       path: 'menu2',
       name: 'Menu2Demo',
+      status: true,
+      root: 'other',
     },
   ],
 }
@@ -38,30 +28,42 @@ const levelRoute = {
 const levelDemo = {
   path: 'otherDemo',
   name: '其他DEMO',
-  icon: 'carbon:user-role',
+  icon: '',
+  type: 'root',
+  status: true,
 }
 const levelDemo2 = {
   path: '/welcome',
   name: 'HOME',
   icon: 'carbon:user-role',
+  type: 'root',
+  status: true,
 }
 
 const system = {
   path: 'system',
   name: '系统设置',
   icon: 'ion:settings-outline',
+  type: 'root',
+  status: true,
   children: [
     {
       path: '/system/user-management',
       name: '用户管理',
+      status: true,
+      root: 'system',
     },
     {
       path: '/system/role-management',
       name: '角色管理',
+      status: true,
+      root: 'system',
     },
     {
       path: '/system/menu-management',
       name: '菜单管理',
+      status: true,
+      root: 'system',
     },
   ],
 }

@@ -12,7 +12,7 @@
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
           <el-button link type="primary" size="small" @click="openUser(row)">分配用户</el-button>
-          <el-button link type="primary" size="small" @click="openUser(row)">分配权限</el-button>
+          <el-button link type="primary" size="small" @click="openUser(row)">分配菜单</el-button>
           <el-button link type="primary" size="small" @click="addOrEditRole('edit', row)">编辑</el-button>
           <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
         </template>

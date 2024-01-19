@@ -9,8 +9,6 @@
 import en from 'element-plus/dist/locale/en'
 import zhCN from 'element-plus/dist/locale/zh-cn'
 import { ElConfigProvider } from 'element-plus'
-// eslint-disable-next-line import/no-unresolved
-// import type { Language } from 'element-plus/es/locale'
 import { LOCALE_KEYS } from '@/locale'
 import { useCommonStore } from '@/store/useCommonStore'
 

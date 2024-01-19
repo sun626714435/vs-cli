@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="flex h-full flex-col items-center justify-center bg-white">
-    <img src="../assets/403.png" alt="403" class="mb-4" />
+    <img src="../..assets/images/403.png" alt="403" class="mb-4" />
     <p class="text-primary-content font-CS font-normal leading-6">抱歉，您无权访问当前页面。</p>
     <p class="text-primary-content font-CS font-bold leading-6">
       Sorry, you don't have access to this page.

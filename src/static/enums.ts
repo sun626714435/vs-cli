@@ -8,8 +8,6 @@ export const DataTypeString = Symbol('String')
 export enum RoleTypeEnum {
   SUPER = 'super',
   TEST = 'test',
-  // MeetingHolder = 'Meeting_Holder',
-  // BUAdmin = 'BU_Admin',
 }
 
 export const LOCALSTORAGE_KEYS = {

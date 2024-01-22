@@ -2,31 +2,41 @@
   <div class="userManagement p-5">
     <el-form :inline="true" :model="formInline" class="search-form">
       <el-form-item label="">
-        <el-input v-model="formInline.user" placeholder="用户名" clearable />
+        <el-input
+          v-model="formInline.user"
+          :placeholder="$t('userManagement.userName')"
+          clearable
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="search">查询</el-button>
-        <el-button type="primary" @click="addoreditUser('add')">添加</el-button>
+        <el-button type="primary" @click="search">{{ $t('userManagement.search') }}</el-button>
+        <el-button type="primary" @click="addoreditUser('add')">{{
+          $t('userManagement.add')
+        }}</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="userData" class="mt-3">
-      <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="sex" label="性别">
+      <el-table-column prop="name" :label="$t('userManagement.name')" />
+      <el-table-column prop="sex" :label="$t('userManagement.sex')">
         <template #default="{ row }">
           {{ row.sex === 0 ? '男' : '女' }}
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" />
-      <el-table-column prop="role" label="角色" />
-      <el-table-column prop="status" label="是否禁用">
+      <el-table-column prop="email" :label="$t('userManagement.email')" />
+      <el-table-column prop="role" :label="$t('userManagement.role')" />
+      <el-table-column prop="status" :label="$t('userManagement.isAvailable')">
         <template #default="{ row }">
           <el-switch v-model="row.status" @change="edit(row)" />
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" :label="$t('userManagement.operation')" width="120">
         <template #default="{ row }">
-          <el-button link type="primary" size="small" @click="addoreditUser('edit', row)">编辑</el-button>
-          <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
+          <el-button link type="primary" size="small" @click="addoreditUser('edit', row)">{{
+            $t('userManagement.edit')
+          }}</el-button>
+          <el-button link type="primary" size="small" @click="del(row)">{{
+            $t('userManagement.del')
+          }}</el-button>
         </template>
       </el-table-column>
     </el-table>

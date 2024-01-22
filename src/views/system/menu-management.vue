@@ -81,7 +81,6 @@ async function getList() {
     const { code, data } = await commonAPIS.getMenuList()
     if (code === 200) {
       menuData.value = data
-      menuData.value = null
 
       loading.value = false
     }

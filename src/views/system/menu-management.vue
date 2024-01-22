@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
-          <el-button link type="primary" size="small" @click="openAuth(row)">分配权限</el-button>
+          <el-button link type="primary" size="small" @click="openAuth(row)">分配角色</el-button>
           <el-button
             link
             type="primary"
@@ -43,16 +43,16 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="changeRole"> 确认 </el-button>
+        <el-button type="primary" @click="changeMenu()"> 确认 </el-button>
       </span>
     </template>
   </el-dialog>
   <el-dialog v-model="userVisible" title="分配权限" width="40%">
-    <el-transfer v-model="userValue" :data="userData" />
+    <el-transfer v-model="userValue" :data="roleData" />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="changeRole"> 确认 </el-button>
+        <el-button type="primary" @click="closeDialog"> 确认 </el-button>
       </span>
     </template>
   </el-dialog>
@@ -61,20 +61,8 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import commonAPIS from '@/api/common'
 
-const generateData = () => {
-  const data: Option[] = []
-  for (let i = 1; i <= 15; i++) {
-    data.push({
-      key: i,
-      label: `Option ${i}`,
-      disabled: i % 4 === 0,
-    })
-  }
-  return data
-}
-
 const menuData = ref([])
-const userData = ref<Option[]>(generateData())
+const roleData = ref<Option[]>()
 const userValue = ref([])
 const userVisible = ref(false)
 const dialogVisible = ref(false)
@@ -93,6 +81,8 @@ async function getList() {
     const { code, data } = await commonAPIS.getMenuList()
     if (code === 200) {
       menuData.value = data
+      menuData.value = null
+
       loading.value = false
     }
   } catch (err) {
@@ -107,7 +97,7 @@ const addOrEditMenu = (type: any, item: any) => {
     title = '编辑菜单'
     currentData.value = item
     item.status = item.status ? '激活' : '禁用'
-    // Object.assign(form, item)
+    Object.assign(form, item)
   }
   dialogVisible.value = true
 }
@@ -143,11 +133,42 @@ const del = (item: any) => {
     })
 }
 
-const openAuth = (item: any) => {
-  console.log('item', item)
+const openAuth = () => {
   userVisible.value = true
+  getRoleList()
 }
 
+async function getRoleList() {
+  try {
+    const { code, data } = await commonAPIS.getRoleList()
+    if (code === 200) {
+      const temp: Option[] = []
+      for (let i = 0; i < data.items.length; i++) {
+        temp.push({
+          key: i,
+          label: data.items[i].roleName,
+        })
+      }
+      roleData.value = temp
+    }
+  } catch (err) {
+    console.log('Error', err)
+  }
+}
+
+const changeMenu = async () => {
+  if (title === '添加菜单') {
+    // await add(form.value)
+  } else {
+    // await edit(currentData.value)
+  }
+  closeDialog()
+}
+
+const closeDialog = () => {
+  dialogVisible.value = false
+  userVisible.value = false
+}
 onMounted(() => {
   getList()
 })

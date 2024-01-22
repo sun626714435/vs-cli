@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="user-box flex items-center">
+    <img class="mr-1.5" @click="toggle" src="../../../../assets/images/language.png" alt="" />
     <el-dropdown trigger="click" @command="onClickItem" popper-class="system-btn-dropdown">
       <div class="flex items-center text-2xl">
         <span class="current-role text-white">{{ currentRole }}</span>
         <el-icon class="text-white"><UserFilled /></el-icon>
-        <el-icon class="text-white"><ArrowDownBold /></el-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -26,6 +26,7 @@
 <script lang="tsx" setup>
 import { useCommonStore } from '@/store/useCommonStore'
 import { useAccessesStore } from '@/store/useAccesses'
+import { LOCALE_KEYS } from '@/locale'
 
 onMounted(() => {
   visible.value = !store.role
@@ -48,6 +49,7 @@ const LOG_OFF_ITEM = {
 }
 
 const store = useCommonStore()
+const { locale } = useI18n()
 const currentRole = computed(() => store.role ?? '')
 
 const handleLogout = () => {
@@ -70,6 +72,13 @@ const onClickItem = (data: RoleItem) => {
       break
   }
 }
+
+const toggle = () => {
+  const isCN = store.locale === LOCALE_KEYS.CN
+  const currentLang = isCN ? LOCALE_KEYS.EN : LOCALE_KEYS.CN
+  locale.value = currentLang
+  store.setLocale(currentLang)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -84,8 +93,6 @@ const onClickItem = (data: RoleItem) => {
   @apply cursor-pointer;
   // @apply hover:bg-[#22373f];
 }
-</style>
-<style lang="scss">
 .system-btn-dropdown {
   // background-color: #303133 !important;
   // border-color: #444444 !important;

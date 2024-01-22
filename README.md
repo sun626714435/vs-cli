@@ -81,8 +81,6 @@
 
 请自行查看官方文档，获取如何使用 Tailwindcss。
 
-我们开启了 Tailwindcss 的 JIT 功能，更多了解请参考：https://www.tailwindcss.cn/docs/just-in-time-mode
-
 同时，丰富了基础的规则的尺寸和字体。
 
 #### 首先，使用任意值

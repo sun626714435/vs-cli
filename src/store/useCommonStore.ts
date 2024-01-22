@@ -95,6 +95,10 @@ export const useCommonStore = defineStore('COMMON_STORE', {
         throw error
       }
     },
+    setLocale(data: LOCALE_KEYS) {
+      this.locale = data
+      localStorage.setItem(LOCALSTORAGE_KEYS.LOCALE, data)
+    },
     addKeepAliveComponentName(componentName: string) {
       if (this.keepAliveComponentNames.indexOf(componentName) === -1) {
         this.keepAliveComponentNames.push(componentName)

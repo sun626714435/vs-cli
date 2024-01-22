@@ -46,18 +46,21 @@ const system = {
   icon: 'ion:settings-outline',
   type: 'root',
   status: true,
+  mark: '父菜单',
   children: [
     {
       path: '/system/user-management',
       name: '用户管理',
       status: true,
       root: 'system',
+      mark: '子菜单',
     },
     {
       path: '/system/role-management',
       name: '角色管理',
       status: true,
       root: 'system',
+      mark: '子菜单',
     },
     {
       path: '/system/menu-management',

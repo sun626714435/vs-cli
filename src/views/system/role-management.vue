@@ -12,7 +12,6 @@
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
           <el-button link type="primary" size="small" @click="openUser(row)">分配用户</el-button>
-          <el-button link type="primary" size="small" @click="openUser(row)">分配菜单</el-button>
           <el-button link type="primary" size="small" @click="addOrEditRole('edit', row)">编辑</el-button>
           <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
         </template>
@@ -67,18 +66,7 @@ const form = reactive({
 })
 const formLabelWidth = '80px'
 
-const generateData = () => {
-  const data: Option[] = []
-  for (let i = 1; i <= 15; i++) {
-    data.push({
-      key: i,
-      label: `Option ${i}`,
-      disabled: i % 4 === 0,
-    })
-  }
-  return data
-}
-const userData = ref<Option[]>(generateData())
+const userData = ref<Option[]>()
 const userValue = ref([])
 
 async function getRoleList() {
@@ -90,10 +78,6 @@ async function getRoleList() {
   } catch (err) {
     console.log('Error', err)
   }
-}
-
-const openUser = () => {
-  userVisible.value = true
 }
 
 const addOrEditRole = (type: any, item: any) => {
@@ -161,6 +145,28 @@ const del = (item: any) => {
     .catch(() => {
       // catch error
     })
+}
+
+const openUser = () => {
+  userVisible.value = true
+  getUserList()
+}
+async function getUserList() {
+  try {
+    const { code, data } = await commonAPIS.getUserList()
+    if (code === 200) {
+      const temp: Option[] = []
+      for (let i = 0; i < data.items.length; i++) {
+        temp.push({
+          key: i,
+          label: data.items[i].name,
+        })
+      }
+      userData.value = temp
+    }
+  } catch (err) {
+    console.log('Error', err)
+  }
 }
 
 onMounted(() => {

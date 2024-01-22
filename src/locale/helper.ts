@@ -16,7 +16,7 @@ const lang = (index: number) => {
     const name = key?.split('/')?.pop()?.split('.').shift()
     if (!name) return
     const current = {
-      [name]: modules[key].default,
+      [name]: modules[key],
     }
     locale = Object.assign(current, locale)
   })

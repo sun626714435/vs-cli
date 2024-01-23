@@ -200,6 +200,7 @@ button.el-button {
       th.el-table-fixed-column--left,
       th.el-table-fixed-column--right {
         // @apply bg-pagination-light-gray;
+        background: var(--el-fill-color-darker);
 
         .cell {
           @apply font-semibold;

@@ -64,11 +64,11 @@ const keepAliveComponentNames = computed(() => store.keepAliveComponentNames)
 .el-main-content {
   width: 100%;
   height: 100%;
+  background: var(--el-fill-color-lighter);
 }
 .el-aside {
   position: relative;
   z-index: 101;
-  margin-top: -2px;
   padding-top: 2px;
   overflow: hidden !important;
   box-shadow: 1px 8px 3px 0px rgba(0, 0, 0, 0.1);

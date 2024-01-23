@@ -10,6 +10,8 @@ import { setStore } from '@/plugin/store'
 import { setupI18n } from '@/locale'
 import setPermission from './directive/permission'
 import { setElement } from '@/plugin/element'
+import 'element-plus/theme-chalk/dark/css-vars.css'
+import './assets/styles/dark.scss'
 
 const render = async () => {
   const app = createApp(App)

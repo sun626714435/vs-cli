@@ -1,7 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="user-box flex items-center">
-    <img class="mr-1.5" @click="toggle" src="../../../../assets/images/language.png" alt="" />
+    <el-switch
+      v-model="isDark"
+      class="mr-1.5"
+      inline-prompt
+      :active-icon="Sunny"
+      :inactive-icon="Moon"
+      @change="changeTheme"
+    />
+    <img
+      class="mr-1.5"
+      @click="changeLanguage"
+      src="../../../../assets/images/language.png"
+      alt=""
+    />
     <el-dropdown trigger="click" @command="onClickItem" popper-class="system-btn-dropdown">
       <div class="flex items-center text-2xl">
         <span class="current-role text-white">{{ currentRole }}</span>
@@ -24,6 +37,8 @@
 </template>
 
 <script lang="tsx" setup>
+import { Sunny, Moon } from '@element-plus/icons-vue'
+import { useDark, useToggle } from '@vueuse/core'
 import { useCommonStore } from '@/store/useCommonStore'
 import { useAccessesStore } from '@/store/useAccesses'
 import { LOCALE_KEYS } from '@/locale'
@@ -73,12 +88,15 @@ const onClickItem = (data: RoleItem) => {
   }
 }
 
-const toggle = () => {
+const changeLanguage = () => {
   const isCN = store.locale === LOCALE_KEYS.CN
   const currentLang = isCN ? LOCALE_KEYS.EN : LOCALE_KEYS.CN
   locale.value = currentLang
   store.setLocale(currentLang)
 }
+
+const isDark = useDark()
+const changeTheme = useToggle(isDark)
 </script>
 
 <style lang="scss" scoped>

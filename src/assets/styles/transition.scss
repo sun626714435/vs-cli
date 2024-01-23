@@ -39,7 +39,7 @@
   &.is-disabled {
     .el-textarea__inner {
       -webkit-text-fill-color: unset;
-      @apply text-primary-black bg-disable-gray shadow-stroke #{!important};
+      @apply bg-disable-gray text-primary-black shadow-stroke #{!important};
 
       &:placeholder {
         @apply text-tip-gray;
@@ -69,11 +69,10 @@
 
 /* 日期选择器 */
 div.el-date-editor {
-
   &.el-input__wrapper {
     @apply w-full shadow-stroke;
   }
-  
+
   &.el-input {
     @apply w-full shadow-stroke;
   }
@@ -84,23 +83,23 @@ div.el-switch {
   @apply h-auto;
 
   .el-switch__core {
-    @apply bg-unchecked-gray border-unchecked-gray;
+    @apply border-unchecked-gray bg-unchecked-gray;
   }
 
   &.is-checked {
     .el-switch__core {
-      @apply bg-active-blue border-active-blue;
+      @apply border-active-blue bg-active-blue;
     }
   }
 
   &.is-disabled {
     .el-switch__core {
-      @apply bg-disable-gray border-disable-gray;
+      @apply border-disable-gray bg-disable-gray;
     }
 
     &.is-checked {
       .el-switch__core {
-        @apply bg-disable-blue border-disable-blue;
+        @apply border-disable-blue bg-disable-blue;
       }
     }
   }
@@ -112,12 +111,12 @@ div.el-switch {
     @apply border-stroke-gray;
 
     .el-radio-button__inner {
-      @apply h-[34px] leading-[34px] py-0 px-[24px] text-primary-black border-stroke-gray;
+      @apply h-[34px] border-stroke-gray px-[24px] py-0 leading-[34px] text-primary-black;
     }
 
     &.is-active {
       .el-radio-button__inner {
-        @apply bg-dark-blue border-dark-blue;
+        @apply border-dark-blue bg-dark-blue;
       }
     }
 
@@ -137,21 +136,21 @@ div.el-switch {
 
 /* 按钮 */
 button.el-button {
-  @apply h-[34px] text-primary-black border-stroke-gray bg-transparent text-[14px] rounded-[2px] px-[10px];
+  @apply h-[34px] rounded-[2px] border-stroke-gray bg-transparent px-[10px] text-[14px] text-primary-black;
 
   &.el-button--primary:not(.is-plain):not(.is-link) {
-    @apply bg-primary-blue text-white border-primary-blue;
+    @apply border-primary-blue bg-primary-blue text-white;
 
     &.is-disabled {
-      @apply bg-disable-blue border-disable-blue;
+      @apply border-disable-blue bg-disable-blue;
     }
   }
-  
+
   &.is-plain {
     @apply bg-transparent;
 
     &.el-button--primary {
-      @apply bg-transparent text-primary-blue border-primary-blue;
+      @apply border-primary-blue bg-transparent text-primary-blue;
     }
   }
 
@@ -161,7 +160,7 @@ button.el-button {
 
   &.is-link {
     @apply bg-transparent text-primary-black;
-    
+
     &.el-button--primary {
       @apply text-dark-blue;
     }
@@ -194,11 +193,13 @@ button.el-button {
       display: none;
     }
   }
-  
+
   .el-table__header-wrapper {
     tr {
-      th.el-table__cell, th.el-table-fixed-column--left, th.el-table-fixed-column--right {
-        @apply bg-primary-blue text-white;
+      th.el-table__cell,
+      th.el-table-fixed-column--left,
+      th.el-table-fixed-column--right {
+        // @apply bg-pagination-light-gray;
 
         .cell {
           @apply font-semibold;
@@ -234,11 +235,11 @@ button.el-button {
 
 /* 分页 */
 div.el-pagination {
-  @apply p-0 mt-[18px] text-pagination-black;
+  @apply mt-[18px] p-0 text-pagination-black;
   @apply justify-end;
 
   .el-pagination__total {
-    @apply text-pagination-black mr-[8px];
+    @apply mr-[8px] text-pagination-black;
   }
 
   .el-pagination__sizes {
@@ -249,27 +250,28 @@ div.el-pagination {
     }
   }
 
-  .btn-prev, .btn-next {
-    @apply text-pagination-black bg-pagination-gray rounded-[2px] mr-[8px];
+  .btn-prev,
+  .btn-next {
+    @apply mr-[8px] rounded-[2px] bg-pagination-gray text-pagination-black;
 
     &:disabled {
-      @apply text-unchecked-gray bg-pagination-light-gray;
+      @apply bg-pagination-light-gray text-unchecked-gray;
     }
   }
 
   .el-pager {
     li {
-      @apply text-pagination-black bg-pagination-gray rounded-[2px] mr-[8px];
+      @apply mr-[8px] rounded-[2px] bg-pagination-gray text-pagination-black;
 
       &.is-active {
-        @apply text-white bg-primary-blue;
+        @apply bg-primary-blue text-white;
       }
     }
   }
 
   .el-pagination__jump {
-    @apply text-pagination-black ml-[8px];
-    
+    @apply ml-[8px] text-pagination-black;
+
     .el-pagination__editor {
       @apply mr-0;
 
@@ -328,7 +330,7 @@ div.el-pagination {
 }
 
 span.el-tag {
-  @apply px-[10px] h-[26px];
+  @apply h-[26px] px-[10px];
 
   &.el-tag--success {
     @apply bg-back-light-green text-primary-green;
@@ -339,11 +341,11 @@ span.el-tag {
   }
 
   &.el-tag--dark {
-    @apply bg-active-blue border-active-blue;
+    @apply border-active-blue bg-active-blue;
   }
 
   &.el-tag--small {
-    @apply px-[8px] h-[20px];
+    @apply h-[20px] px-[8px];
   }
 }
 
@@ -370,14 +372,14 @@ span.el-tag {
 
 /* 提示语 */
 div.el-message {
-  @apply h-[40px] px-[15px] border-0 font-medium;
+  @apply h-[40px] border-0 px-[15px] font-medium;
 
   &.el-message--success {
-    @apply text-primary-green bg-back-light-green;
+    @apply bg-back-light-green text-primary-green;
   }
 
   &.el-message--error {
-    @apply text-primary-red bg-back-light-red;
+    @apply bg-back-light-red text-primary-red;
   }
 }
 
@@ -404,11 +406,11 @@ a.el-link {
 div.el-steps {
   .el-step__head {
     &.is-wait {
-      @apply text-unchecked-gray border-unchecked-gray;
+      @apply border-unchecked-gray text-unchecked-gray;
     }
 
     .el-step__line {
-      @apply h-[1px] mx-[18px] bg-unchecked-gray;
+      @apply mx-[18px] h-[1px] bg-unchecked-gray;
 
       .el-step__line-inner {
         @apply hidden;
@@ -441,7 +443,7 @@ div.el-steps {
 
 /* 分割线 */
 div.el-divider {
-  @apply border-stroke-light-gray my-[18px];
+  @apply my-[18px] border-stroke-light-gray;
 }
 
 /* 滑块 */
@@ -469,7 +471,7 @@ div.el-divider {
       .el-slider__stop {
         @apply border-disable-dark-gray;
       }
-  
+
       .el-slider__button-wrapper {
         .el-slider__button {
           @apply border-disable-dark-gray;

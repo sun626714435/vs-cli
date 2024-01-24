@@ -9,6 +9,7 @@ export const paths = {
   forbidden: '/403',
   notFound: '/404',
   redirect4develop: '/login-redirect',
+  demo: 'otherDemo',
   cases: 'cases',
   cm: 'cm',
   le: 'le',

@@ -28,8 +28,9 @@ const routes: CustomRouteRecordRaw[] = [
     },
     component: () => import('@/layout/login/Login.vue'),
   },
+
   {
-    path: paths.system,
+    path: paths.root,
     meta: {
       title: 'Retail Knowledge System',
     },
@@ -39,6 +40,14 @@ const routes: CustomRouteRecordRaw[] = [
       {
         path: paths.root,
         redirect: paths.login,
+      },
+      {
+        path: paths.demo,
+        name: 'demo',
+        meta: {
+          hiddenBreadcrumb: true,
+        },
+        component: () => import('@/views/otherDemo/three-demo.vue'),
       },
       {
         path: paths.welcome,

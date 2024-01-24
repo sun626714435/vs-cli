@@ -26,7 +26,7 @@ const levelRoute = {
 }
 
 const levelDemo = {
-  path: 'otherDemo',
+  path: '/otherDemo',
   name: '其他DEMO',
   icon: '',
   type: 'root',

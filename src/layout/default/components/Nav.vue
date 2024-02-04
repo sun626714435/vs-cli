@@ -19,19 +19,21 @@
           </template>
           <template v-if="item['children']">
             <template v-for="subItem in item['children']" :key="subItem.path">
-              <el-menu-item v-if="!subItem['children']" :index="subItem['path']">
-                <!--  @click="pageHopping(subItem)" -->
-                <!-- <NavIcon :data="subItem" /> -->
+              <el-menu-item
+                v-if="!subItem['children']"
+                :index="subItem['path']"
+                @click="pageHopping(subItem)"
+              >
+                <NavIcon :data="subItem" />
                 <span class="nav-child-title">{{ subItem['name'] }}</span>
               </el-menu-item>
               <el-sub-menu v-else :index="subItem['path']" popper-class="submenu-popup-container">
                 <template #title>
-                  <!-- <NavIcon :data="subItem" /> -->
+                  <NavIcon :data="subItem" />
                   <span class="nav-child-title">{{ subItem['name'] }}</span>
                 </template>
                 <template v-for="subItemChild in subItem['children']" :key="subItemChild.name">
-                  <el-menu-item :index="subItemChild.path">
-                    <!-- @click="pageHopping(subItemChild)" -->
+                  <el-menu-item :index="subItemChild.path" @click="pageHopping(subItemChild)">
                     <template #title>
                       <NavIcon :data="subItemChild" />
                       <span>{{ subItemChild.name }}</span>
@@ -46,8 +48,8 @@
           v-else
           :class="{ 'is-button': item['highlightable'] === false }"
           :index="item['path']"
+          @click="pageHopping(item)"
         >
-          <!-- @click="pageHopping(item)" -->
           <template v-if="isCollapse">
             <NavIcon :data="item" />
           </template>
@@ -102,10 +104,10 @@ onMounted(() => {
 })
 
 // 跳转页面
-// const pageHopping = ({ path }) => {
-//   if (!path) return
-//   routerTo({ path })
-// }
+const pageHopping = ({ path }: any) => {
+  if (!path) return
+  routerTo({ path })
+}
 
 // 二级菜单高亮显示
 const activeIndex = computed(() =>

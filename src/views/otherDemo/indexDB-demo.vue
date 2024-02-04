@@ -18,20 +18,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-const tableData = ref([])
+const tableData = ref()
 
 const DATA_BASE = 'tableDemoData'
-let db = {}
+let db: any
 const request = window.indexedDB.open(DATA_BASE, 1)
 request.onerror = function (e) {
   console.error('error', e)
 }
 request.onsuccess = function (event) {
-  db = event.target.result
+  db = (event.target as any).result
 }
 
 request.onupgradeneeded = function (event) {
-  db = event.target.result
+  db = (event.target as any).result
 
   const objectStore = db.createObjectStore('users', { keyPath: 'id' })
   objectStore.createIndex('date', 'date', { unique: false })
@@ -87,7 +87,7 @@ function addDBData() {
     getDBData()
   }
 
-  transaction.onerror = function (error) {
+  transaction.onerror = function (error: any) {
     console.error('add error', error)
   }
 
@@ -100,15 +100,15 @@ function getDBData() {
   const transaction = db.transaction(['users'], 'readwrite')
   const objectStore = transaction.objectStore('users')
   const request = objectStore.getAll()
-  request.onsuccess = function (event) {
+  request.onsuccess = function (event: any) {
     tableData.value = [...event.target.result]
   }
 
-  request.onerror = function (err) {
+  request.onerror = function (err: any) {
     console.error('get error', err)
   }
 }
-function delDBData(row) {
+function delDBData(row: any) {
   const request = db.transaction(['users'], 'readwrite').objectStore('users').delete(row.id)
 
   request.onsuccess = function () {
@@ -129,7 +129,7 @@ function updateDBData(row: any) {
     }
   }
 
-  request.onerror = function (err) {
+  request.onerror = function (err: any) {
     console.error('get error', err)
   }
 }

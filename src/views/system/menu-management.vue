@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
-          <el-button link type="primary" size="small" @click="openAuth(row)">分配角色</el-button>
+          <el-button link type="primary" size="small" @click="openAuth()">分配角色</el-button>
           <el-button
             link
             type="primary"
@@ -62,11 +62,11 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import commonAPIS from '@/api/common'
 
 const menuData = ref([])
-const roleData = ref<Option[]>()
+const roleData = ref()
 const userValue = ref([])
 const userVisible = ref(false)
 const dialogVisible = ref(false)
-let title = ref('')
+const title = ref()
 const currentData = ref()
 const form = reactive({
   name: '',
@@ -89,11 +89,11 @@ async function getList() {
   }
 }
 
-const addOrEditMenu = (type: any, item: any) => {
+const addOrEditMenu = (type: any, item?: any) => {
   if (type === 'add') {
-    title = '添加菜单'
+    title.value = '添加菜单'
   } else {
-    title = '编辑菜单'
+    title.value = '编辑菜单'
     currentData.value = item
     item.status = item.status ? '激活' : '禁用'
     Object.assign(form, item)
@@ -116,11 +116,11 @@ const del = (item: any) => {
       const { code } = await commonAPIS.delUser({ id: item.id })
       if (code === 200) {
         if (item.type === 'root') {
-          menuData.value = menuData.value.filter((v) => v.path !== item.path)
+          menuData.value = menuData.value.filter((v: any) => v.path !== item.path)
         } else {
-          menuData.value.forEach((el) => {
+          menuData.value.forEach((el: any) => {
             if (el.path === item.root) {
-              el.children = el.children.filter((c) => c.path !== item.path)
+              el.children = el.children.filter((c: any) => c.path !== item.path)
             }
           })
         }
@@ -141,7 +141,7 @@ async function getRoleList() {
   try {
     const { code, data } = await commonAPIS.getRoleList()
     if (code === 200) {
-      const temp: Option[] = []
+      const temp = []
       for (let i = 0; i < data.items.length; i++) {
         temp.push({
           key: i,
@@ -156,7 +156,7 @@ async function getRoleList() {
 }
 
 const changeMenu = async () => {
-  if (title === '添加菜单') {
+  if (title.value === '添加菜单') {
     // await add(form.value)
   } else {
     // await edit(currentData.value)

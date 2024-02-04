@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default="{ row }">
-          <el-button link type="primary" size="small" @click="openUser(row)">分配用户</el-button>
+          <el-button link type="primary" size="small" @click="openUser()">分配用户</el-button>
           <el-button link type="primary" size="small" @click="addOrEditRole('edit', row)">编辑</el-button>
           <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
         </template>
@@ -54,10 +54,10 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import commonAPIS from '@/api/common'
 
-const roleData = ref([])
+const roleData = ref()
 const dialogVisible = ref(false)
 const userVisible = ref(false)
-let title = ref('')
+const title = ref()
 const currentData = ref()
 const form = reactive({
   roleName: '',
@@ -66,7 +66,7 @@ const form = reactive({
 })
 const formLabelWidth = '80px'
 
-const userData = ref<Option[]>()
+const userData = ref()
 const userValue = ref([])
 
 async function getRoleList() {
@@ -80,11 +80,11 @@ async function getRoleList() {
   }
 }
 
-const addOrEditRole = (type: any, item: any) => {
+const addOrEditRole = (type: any, item?: any) => {
   if (type === 'add') {
-    title = '添加角色'
+    title.value = '添加角色'
   } else {
-    title = '编辑角色'
+    title.value = '编辑角色'
     currentData.value = item
     item.status = item.status ? '激活' : '禁用'
     Object.assign(form, item)
@@ -93,8 +93,8 @@ const addOrEditRole = (type: any, item: any) => {
 }
 
 const changeRole = async () => {
-  if (title === '添加角色') {
-    await add(form.value)
+  if (title.value === '添加角色') {
+    await add()
   } else {
     await edit(currentData.value)
   }
@@ -102,7 +102,7 @@ const changeRole = async () => {
 }
 const add = async () => {
   try {
-    const { code } = await commonAPIS.addUser(form.value)
+    const { code } = await commonAPIS.addUser(form)
     if (code === 200) {
       const obj = {
         id: roleData.value.length + 1,
@@ -138,7 +138,7 @@ const del = (item: any) => {
     .then(async () => {
       const { code } = await commonAPIS.delUser({ id: item.id })
       if (code === 200) {
-        roleData.value = roleData.value.filter((v) => v.id !== item.id)
+        roleData.value = roleData.value.filter((v: any) => v.id !== item.id)
         ElMessage.success('删除成功！')
       }
     })
@@ -155,7 +155,7 @@ async function getUserList() {
   try {
     const { code, data } = await commonAPIS.getUserList()
     if (code === 200) {
-      const temp: Option[] = []
+      const temp = []
       for (let i = 0; i < data.items.length; i++) {
         temp.push({
           key: i,

@@ -93,21 +93,21 @@ const form = reactive({
   role: '',
   status: '',
 })
-let title = ref('添加用户')
-const userData = ref([])
+const title = ref('添加用户')
+const userData = ref()
 const currentData = ref()
 const search = () => {
   if (formInline.user === '') {
     getUserList()
   } else {
-    userData.value = userData.value.filter((v) => v.name.includes(formInline.user))
+    userData.value = userData.value.filter((v: any) => v.name.includes(formInline.user))
   }
 }
-const addoreditUser = (type: any, item: any) => {
+const addoreditUser = (type: any, item?: any) => {
   if (type === 'add') {
-    title = '添加用户'
+    title.value = '添加用户'
   } else {
-    title = '编辑用户'
+    title.value = '编辑用户'
     console.log('eee', item)
     currentData.value = item
     item.sex = item.sex === 0 ? '男' : '女'
@@ -118,8 +118,8 @@ const addoreditUser = (type: any, item: any) => {
 }
 
 const changeUser = async (formEl: FormInstance | undefined) => {
-  if (title === '添加用户') {
-    await add(form.value)
+  if (title.value === '添加用户') {
+    await add()
   } else {
     await edit(currentData.value)
   }
@@ -128,7 +128,7 @@ const changeUser = async (formEl: FormInstance | undefined) => {
 
 const add = async () => {
   try {
-    const { code } = await commonAPIS.addUser(form.value)
+    const { code } = await commonAPIS.addUser(form)
     if (code === 200) {
       const obj = {
         id: userData.value.length + 1,
@@ -168,7 +168,7 @@ const del = (item: any) => {
     .then(async () => {
       const { code } = await commonAPIS.delUser({ id: item.id })
       if (code === 200) {
-        userData.value = userData.value.filter((v) => v.id !== item.id)
+        userData.value = userData.value.filter((v: any) => v.id !== item.id)
         ElMessage.success('删除成功！')
       }
     })

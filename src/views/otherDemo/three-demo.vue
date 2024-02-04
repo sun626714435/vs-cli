@@ -6,7 +6,7 @@
 </template>
 <script lang="ts" setup>
 // eslint-disable-next-line import/no-extraneous-dependencies
-import * as THREE from 'three'
+// import * as THREE from 'three'
 
 // const scene = new THREE.Scene()
 // const geometry = new THREE.BoxGeometry(100, 100, 100)
@@ -28,33 +28,33 @@ import * as THREE from 'three'
 // // 相机位置xyz坐标：200, 200, 200
 // camera.position.set(200, 200, 200)
 
-const scene = new THREE.Scene()
-const geometry = new THREE.BoxGeometry(100, 100, 100)
-const material = new THREE.MeshBasicMaterial({
-  color: 0x0000ff, // 设置材质颜色
-  transparent: true, // 开启透明
-  opacity: 0.5, // 设置透明度
-})
-const mesh = new THREE.Mesh(geometry, material) // 网格模型对象Mesh
-scene.add(mesh)
-const width = 300 // 宽度
-const height = 300 // 高度
-const camera = new THREE.PerspectiveCamera(30, width / height, 1, 300)
-const axesHelper = new THREE.AxesHelper(150)
-scene.add(axesHelper)
-const pointLight = new THREE.PointLight(0xffffff, 1.0)
-// pointLight.position.set(400, 0, 0);//点光源放在x轴上
-pointLight.position.set(400, 200, 300)
-scene.add(pointLight) // 点光源添加到场景中
-mesh.position.set(10, 0, 0)
-camera.position.set(-100, 0, 0)
-camera.lookAt(0, 0, 0)
+// const scene = new THREE.Scene()
+// const geometry = new THREE.BoxGeometry(100, 100, 100)
+// const material = new THREE.MeshBasicMaterial({
+//   color: 0x0000ff, // 设置材质颜色
+//   transparent: true, // 开启透明
+//   opacity: 0.5, // 设置透明度
+// })
+// const mesh = new THREE.Mesh(geometry, material) // 网格模型对象Mesh
+// scene.add(mesh)
+// const width = 300 // 宽度
+// const height = 300 // 高度
+// const camera = new THREE.PerspectiveCamera(30, width / height, 1, 300)
+// const axesHelper = new THREE.AxesHelper(150)
+// scene.add(axesHelper)
+// const pointLight = new THREE.PointLight(0xffffff, 1.0)
+// // pointLight.position.set(400, 0, 0);//点光源放在x轴上
+// pointLight.position.set(400, 200, 300)
+// scene.add(pointLight) // 点光源添加到场景中
+// mesh.position.set(10, 0, 0)
+// camera.position.set(-100, 0, 0)
+// camera.lookAt(0, 0, 0)
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(width, height) // 设置three.js渲染区域的尺寸(像素px)
-renderer.render(scene, camera) // 执行渲染操作
-// setTimeout(() => {
-//   document.getElementById('webgl').appendChild(renderer.domElement)
-// }, 1000)
+// const renderer = new THREE.WebGLRenderer()
+// renderer.setSize(width, height) // 设置three.js渲染区域的尺寸(像素px)
+// renderer.render(scene, camera) // 执行渲染操作
+// // setTimeout(() => {
+// //   document.getElementById('webgl').appendChild(renderer.domElement)
+// // }, 1000)
 </script>
 <style lang="scss" scoped></style>

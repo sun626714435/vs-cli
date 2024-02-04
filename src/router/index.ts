@@ -82,6 +82,14 @@ const routes: CustomRouteRecordRaw[] = [
         },
       },
       {
+        path: paths.indexDB,
+        name: 'indexDB-demo',
+        component: () => import('@/views/otherDemo/indexDB-demo.vue'),
+        meta: {
+          permission: 'canAccessSystem',
+        },
+      },
+      {
         // 403
         meta: {
           hiddenBreadcrumb: true,

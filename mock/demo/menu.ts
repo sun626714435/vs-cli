@@ -11,14 +11,14 @@ const levelRoute = {
   status: true,
   children: [
     {
-      path: 'menu1',
-      name: 'Menu1Demo',
+      path: '/other/indexDB',
+      name: 'indexDB',
       status: true,
       root: 'other',
     },
     {
-      path: 'menu2',
-      name: 'Menu2Demo',
+      path: '/other/three',
+      name: 'threeDemo',
       status: true,
       root: 'other',
     },

@@ -64,6 +64,7 @@ import NavIcon from '@/layout/default/components/NavIcon.vue'
 import { routerTo } from '@/utils/router'
 import type { Menu } from '../../types/common.d'
 import commonAPIS from '@/api/common'
+// import { useCommonStore } from '@/store/useCommonStore'
 
 const route = useRoute()
 // const store = useCommonStore()
@@ -87,8 +88,10 @@ async function getList() {
     if (code === 200) {
       menus.value = data
     }
-  } catch (err) {
-    console.log('Error', err)
+  } catch (err: any) {
+    if (err.data.code === -1) {
+      routerTo({ path: '/login' })
+    }
   }
 }
 

@@ -8,28 +8,30 @@
       :default-active="activeIndex"
     >
       <template v-for="item in menus" :key="item.name">
-        <el-sub-menu popper-class="submenu-popup-container" v-if="item.children" :index="item.path">
+        <el-sub-menu
+          popper-class="submenu-popup-container"
+          v-if="item['children']"
+          :index="item['path']"
+        >
           <template #title>
             <NavIcon :data="item" />
-            <span class="nav-parent-title">{{ item.name }}</span>
+            <span class="nav-parent-title">{{ item['name'] }}</span>
           </template>
-          <template v-if="item.children">
-            <template v-for="subItem in item.children" :key="subItem.path">
-              <el-menu-item
-                v-if="!subItem.children"
-                :index="subItem.path"
-                @click="pageHopping(subItem)"
-              >
-                <NavIcon :data="subItem" />
-                <span class="nav-child-title">{{ subItem.name }}</span>
+          <template v-if="item['children']">
+            <template v-for="subItem in item['children']" :key="subItem.path">
+              <el-menu-item v-if="!subItem['children']" :index="subItem['path']">
+                <!--  @click="pageHopping(subItem)" -->
+                <!-- <NavIcon :data="subItem" /> -->
+                <span class="nav-child-title">{{ subItem['name'] }}</span>
               </el-menu-item>
-              <el-sub-menu v-else :index="subItem.path" popper-class="submenu-popup-container">
+              <el-sub-menu v-else :index="subItem['path']" popper-class="submenu-popup-container">
                 <template #title>
-                  <NavIcon :data="subItem" />
-                  <span class="nav-child-title">{{ subItem.name }}</span>
+                  <!-- <NavIcon :data="subItem" /> -->
+                  <span class="nav-child-title">{{ subItem['name'] }}</span>
                 </template>
-                <template v-for="subItemChild in subItem.children" :key="subItemChild.name">
-                  <el-menu-item :index="subItemChild.path" @click="pageHopping(subItemChild)">
+                <template v-for="subItemChild in subItem['children']" :key="subItemChild.name">
+                  <el-menu-item :index="subItemChild.path">
+                    <!-- @click="pageHopping(subItemChild)" -->
                     <template #title>
                       <NavIcon :data="subItemChild" />
                       <span>{{ subItemChild.name }}</span>
@@ -42,16 +44,16 @@
         </el-sub-menu>
         <el-menu-item
           v-else
-          :class="{ 'is-button': item.highlightable === false }"
-          :index="item.path"
-          @click="pageHopping(item)"
+          :class="{ 'is-button': item['highlightable'] === false }"
+          :index="item['path']"
         >
+          <!-- @click="pageHopping(item)" -->
           <template v-if="isCollapse">
             <NavIcon :data="item" />
           </template>
           <template v-else>
             <NavIcon :data="item" />
-            <span class="nav-parent-title">{{ item.name }}</span>
+            <span class="nav-parent-title">{{ item['name'] }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -62,7 +64,7 @@
 import * as R from 'ramda'
 import NavIcon from '@/layout/default/components/NavIcon.vue'
 import { routerTo } from '@/utils/router'
-import type { Menu } from '../../types/common.d'
+import type { Menu } from '../../typing/common.d'
 import commonAPIS from '@/api/common'
 // import { useCommonStore } from '@/store/useCommonStore'
 
@@ -100,10 +102,10 @@ onMounted(() => {
 })
 
 // 跳转页面
-const pageHopping = ({ path }: Menu) => {
-  if (!path) return
-  routerTo({ path })
-}
+// const pageHopping = ({ path }) => {
+//   if (!path) return
+//   routerTo({ path })
+// }
 
 // 二级菜单高亮显示
 const activeIndex = computed(() =>

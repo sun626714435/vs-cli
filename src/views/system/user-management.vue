@@ -108,7 +108,6 @@ const addoreditUser = (type: any, item?: any) => {
     title.value = '添加用户'
   } else {
     title.value = '编辑用户'
-    console.log('eee', item)
     currentData.value = item
     item.sex = item.sex === 0 ? '男' : '女'
     item.status = item.status ? '激活' : '禁用'

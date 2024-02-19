@@ -68,10 +68,8 @@ import NavIcon from '@/layout/default/components/NavIcon.vue'
 import { routerTo } from '@/utils/router'
 import type { Menu } from '../../typing/common.d'
 import commonAPIS from '@/api/common'
-// import { useCommonStore } from '@/store/useCommonStore'
 
 const route = useRoute()
-// const store = useCommonStore()
 const menus = ref([])
 const collapse = ref()
 const opened = ref<string[]>([])

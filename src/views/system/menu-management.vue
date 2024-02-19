@@ -81,7 +81,6 @@ async function getList() {
     const { code, data } = await commonAPIS.getMenuList()
     if (code === 200) {
       menuData.value = data
-
       loading.value = false
     }
   } catch (err) {
@@ -102,7 +101,6 @@ const addOrEditMenu = (type: any, item?: any) => {
 }
 
 const onAddChild = (item: any) => {
-  console.log('item', item)
   item.children.push({
     name: '',
     mark: '',
